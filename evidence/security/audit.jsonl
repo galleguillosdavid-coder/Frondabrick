@@ -5,3 +5,9 @@
 {"stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
 {"stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
 {"stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 323, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 323, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 325, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 325, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 327, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 327, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
