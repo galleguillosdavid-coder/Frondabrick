@@ -1,0 +1,17 @@
+{
+  "f-shield-gate": {
+    "enabled": true,
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python ../scripts/security/validator.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "conversationId": "exp-001-test-uuid",
+  "workspacePaths": ["C:/Users/Frondabrick/Desktop/dvd/EvryThing"],
+  "transcriptPath": "C:/Users/Frondabrick/Desktop/dvd/EvryThing/.gemini/transcript.jsonl",
+  "artifactDirectoryPath": "C:/Users/Frondabrick/Desktop/dvd/EvryThing/.gemini/artifacts",
+  "modelName": "gemini-3.8-flash",
+  "stepIdx": 10,
+  "toolCall": {
+    "name": "run_command",
+    "args": {
+      "CommandLine": "rm -rf /"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "plugin_manifest": {
+    "valid": true,
+    "name": "frondabrick-core"
+  },
+  "skill_frontmatter": {
+    "valid": true,
+    "name": "fronda-example-skill",
+    "description": "Use this skill when verifying that skill discovery, YAML frontmatter parsing, and progressive disclosure rules function correctly."
+  },
+  "pretooluse_dangerous": {
+    "decision": "deny",
+    "reason": "Security policy triggered: Recursive forced deletion detected (pattern: \\brm\\s+-[rRfF]{1,3}\\b)"
+  },
+  "pretooluse_reviewer_write": {
+    "decision": "deny",
+    "reason": "Role 'reviewer' is strictly read-only and prohibited from executing write tool 'write_to_file'."
+  },
+  "pretooluse_safe": {
+    "decision": "allow",
+    "reason": "Tool call verified against security policies."
+  },
+  "pretooluse_overwrite": {
+    "decision": "allow",
+    "reason": "Parameter overwrite policy applied",
+    "overwrite": {
+      "CommandLine": "git status --short"
+    }
+  }
+}

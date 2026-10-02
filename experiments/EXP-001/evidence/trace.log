@@ -1,0 +1,6 @@
+Plugin manifest validado correctamente: frondabrick-core
+Skill validado: fronda-example-skill con descripción 'Use this skill when verifying that skill discovery, YAML frontmatter parsing, and progressive disclosure rules function correctly.'
+Comando destructivo denegado exitosamente: Security policy triggered: Recursive forced deletion detected (pattern: \brm\s+-[rRfF]{1,3}\b)
+Escritura en rol reviewer bloqueada exitosamente: Role 'reviewer' is strictly read-only and prohibited from executing write tool 'write_to_file'.
+Comando seguro permitido correctamente: Tool call verified against security policies.
+Mecanismo de overwrite verificado en contrato de salida

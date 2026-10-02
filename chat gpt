@@ -1,0 +1,1235 @@
+# FRONDABRICK
+
+## PLAN OPERATIVO DE IMPLEMENTACIÓN
+
+### Instrucciones maestras para Antigravity
+
+**VERSIÓN:** 1.0
+**ESTADO:** AUTORIZADO PARA IMPLEMENTACIÓN
+**MODO:** INCREMENTAL / VERIFICABLE / ANTI-ALUCINACIÓN
+
+---
+
+# 0. TU ROL
+
+Actúas como **ingeniero principal de implementación de Frondabrick** dentro de Antigravity.
+
+Tu objetivo no es diseñar otro framework sobre el papel.
+
+Tu objetivo es:
+
+> **CONSTRUIR, PROBAR, DOCUMENTAR Y CORREGIR FRONDABRICK EN EL WORKSPACE REAL.**
+
+Debes trabajar directamente sobre los archivos del proyecto.
+
+No debes inventar capacidades de Antigravity.
+
+No debes asumir que una API, hook, evento, parámetro o mecanismo existe simplemente porque aparece en este documento.
+
+Si algo no puede verificarse:
+
+```text
+NO INVENTAR
+NO SIMULAR
+NO MARCAR COMO IMPLEMENTADO
+```
+
+Debes registrarlo como:
+
+```text
+HIPÓTESIS
+NO VERIFICADO
+NO SOPORTADO
+```
+
+según corresponda.
+
+---
+
+# 1. OBJETIVO DEL PROYECTO
+
+Construir **Frondabrick**, un arnés de ingeniería para agentes de programación que funcione sobre Antigravity.
+
+Frondabrick debe proporcionar:
+
+```text
+REGLAS
++
+SKILLS
++
+AGENTES
++
+SEGURIDAD
++
+VALIDACIÓN
++
+MEMORIA
++
+EVIDENCIA
+```
+
+La arquitectura objetivo contempla:
+
+```text
+F-Core
+F-Shield
+F-Memory
+F-Fleet
+F-Skills
+CLI
+```
+
+La propuesta original define estas capas como componentes desacoplados.
+
+---
+
+# 2. PRINCIPIO SUPREMO
+
+## REALIDAD > DISEÑO
+
+Todo componente debe cumplir:
+
+```text
+IMPLEMENTAR
+↓
+EJECUTAR
+↓
+OBSERVAR
+↓
+PROBAR
+↓
+DOCUMENTAR
+```
+
+Nunca:
+
+```text
+DISEÑAR
+↓
+ASUMIR
+↓
+MARCAR COMO TERMINADO
+```
+
+---
+
+# 3. REGLA ANTI-ALUCINACIÓN
+
+Antes de utilizar cualquier característica de Antigravity debes determinar si está:
+
+### HECHO
+
+Comprobado directamente.
+
+### DOCUMENTADO
+
+Existe documentación disponible, pero todavía no fue probado.
+
+### INFERIDO
+
+Se deduce de evidencia existente.
+
+### HIPÓTESIS
+
+No está comprobado.
+
+### NO SOPORTADO
+
+La prueba demuestra que no funciona.
+
+---
+
+# 4. REGLA DE CAMBIOS
+
+Antes de modificar archivos:
+
+1. inspecciona el workspace;
+2. identifica la estructura existente;
+3. identifica archivos de configuración;
+4. identifica herramientas disponibles;
+5. identifica cambios previos;
+6. determina el alcance;
+7. crea un plan;
+8. recién después modifica.
+
+No sobrescribas archivos existentes sin inspeccionarlos.
+
+No elimines archivos sin autorización explícita.
+
+No cambies código productivo del proyecto anfitrión salvo que sea necesario para probar Frondabrick.
+
+---
+
+# 5. PRIMERA ACCIÓN OBLIGATORIA
+
+NO programes Frondabrick inmediatamente.
+
+Primero realiza una auditoría del entorno.
+
+Crea:
+
+```text
+FRONDABRICK/
+└── docs/
+    └── ANTIGRAVITY_CAPABILITIES.md
+```
+
+Investiga y prueba:
+
+```text
+[ ] Rules
+[ ] Skills
+[ ] Agents
+[ ] Plugins
+[ ] Hooks
+[ ] MCP
+[ ] Tool permissions
+[ ] Context loading
+[ ] Workspace configuration
+[ ] Persistent storage
+[ ] Browser capabilities
+```
+
+Para cada capacidad registra:
+
+```text
+CAPACIDAD
+VERSION
+ESTADO
+EVIDENCIA
+LIMITACIONES
+RIESGO
+```
+
+---
+
+# 6. EXPERIMENTOS OBLIGATORIOS
+
+Crea:
+
+```text
+experiments/
+```
+
+Cada experimento:
+
+```text
+EXP-XXX/
+├── README.md
+├── input/
+├── output/
+├── evidence/
+└── result.md
+```
+
+Estados permitidos:
+
+```text
+PASS
+FAIL
+INCONCLUSIVE
+NOT_SUPPORTED
+```
+
+No uses:
+
+```text
+"probablemente funciona"
+"debería funcionar"
+"parece funcionar"
+```
+
+como estado final.
+
+---
+
+# 7. ESTRUCTURA DEL PROYECTO
+
+Construye progresivamente:
+
+```text
+.agents/
+└── plugins/
+    └── frondabrick-core/
+        ├── plugin.json
+        ├── rules/
+        ├── skills/
+        ├── agents/
+        ├── scripts/
+        ├── memory/
+        ├── experiments/
+        └── tests/
+```
+
+No crees todo de una sola vez.
+
+Cada directorio debe aparecer cuando su fase comience.
+
+---
+
+# 8. FASE 1 — F-CORE
+
+## Objetivo
+
+Crear el núcleo mínimo.
+
+Implementar:
+
+```text
+plugin.json
+```
+
+y reglas básicas:
+
+```text
+rules/
+├── 00-core.md
+├── 01-safety.md
+├── 02-workflow.md
+└── 03-testing.md
+```
+
+## 00-core.md
+
+Debe definir:
+
+* principios arquitectónicos;
+* prohibición de inventar capacidades;
+* separación entre hecho e hipótesis;
+* mínimo privilegio;
+* evidencia obligatoria.
+
+## 01-safety.md
+
+Debe definir:
+
+* operaciones destructivas;
+* protección de secretos;
+* protección de archivos;
+* confirmaciones;
+* rollback.
+
+## 02-workflow.md
+
+Debe definir:
+
+```text
+INSPECCIONAR
+↓
+PLANIFICAR
+↓
+IMPLEMENTAR
+↓
+TESTEAR
+↓
+AUDITAR
+↓
+DOCUMENTAR
+```
+
+## 03-testing.md
+
+Debe definir:
+
+* pruebas obligatorias;
+* criterios PASS/FAIL;
+* prohibición de declarar éxito sin evidencia.
+
+---
+
+# 9. CRITERIO DE ACEPTACIÓN FASE 1
+
+La fase solo termina cuando:
+
+```text
+[ ] plugin válido
+[ ] reglas cargan
+[ ] reglas son obedecidas
+[ ] pruebas pasan
+[ ] documentación actualizada
+```
+
+Si falla:
+
+```text
+DETENER
+CORREGIR
+VOLVER A PROBAR
+```
+
+---
+
+# 10. FASE 2 — F-REVIEWER
+
+Crear:
+
+```text
+agents/
+└── reviewer/
+```
+
+F-Reviewer será inicialmente **READ ONLY**.
+
+Debe poder:
+
+```text
+leer
+buscar
+analizar
+comparar
+revisar diffs
+revisar tests
+```
+
+No debe poder:
+
+```text
+escribir
+eliminar
+commit
+push
+modificar código
+```
+
+Su misión coincide con el Reviewer planteado en la arquitectura inicial: auditoría de cambios, calidad y deuda técnica sin capacidad de escritura.
+
+---
+
+# 11. FASE 3 — F-PLANNER
+
+Crear:
+
+```text
+agents/
+└── planner/
+```
+
+F-Planner no programa.
+
+Produce:
+
+```text
+OBJETIVO
+ALCANCE
+NO-ALCANCE
+ARCHIVOS
+DEPENDENCIAS
+RIESGOS
+PLAN
+TESTS
+CRITERIOS DE ACEPTACIÓN
+ROLLBACK
+```
+
+Debe ejecutarse antes de cambios complejos.
+
+---
+
+# 12. FASE 4 — F-SHIELD
+
+Esta fase comienza únicamente después de verificar el mecanismo real de hooks.
+
+Crear:
+
+```text
+skills/
+└── fronda-shield/
+    ├── SKILL.md
+    ├── references/
+    └── scripts/
+```
+
+Y:
+
+```text
+scripts/
+├── security/
+│   ├── detector.py
+│   ├── policy.py
+│   └── validator.py
+```
+
+---
+
+# 13. F-SHIELD — NIVELES
+
+### Nivel 1
+
+Detectar.
+
+### Nivel 2
+
+Advertir.
+
+### Nivel 3
+
+Solicitar confirmación.
+
+### Nivel 4
+
+Bloquear.
+
+### Nivel 5
+
+Modificar parámetros.
+
+**IMPORTANTE:**
+
+El Nivel 5 solo puede implementarse si Antigravity demuestra que el mecanismo de modificación de parámetros existe y es seguro.
+
+No inventar `overwrite`.
+
+La propuesta original contempla `overwrite`, pero esta capacidad debe comprobarse experimentalmente antes de convertirla en una dependencia arquitectónica.
+
+---
+
+# 14. PATRONES INICIALES DE SEGURIDAD
+
+Detectar como mínimo:
+
+```text
+rm -rf
+del /s
+format
+DROP DATABASE
+DROP TABLE
+git reset --hard
+git clean -fd
+git push --force
+credenciales
+tokens
+API keys
+.env
+private keys
+```
+
+Pero no bloquees indiscriminadamente.
+
+Cada patrón debe tener:
+
+```text
+pattern
+risk
+reason
+action
+exception
+test
+```
+
+---
+
+# 15. FASE 5 — SISTEMA DE EVIDENCIA
+
+Crear:
+
+```text
+evidence/
+```
+
+Cada acción importante debe poder responder:
+
+```text
+¿Qué se hizo?
+¿Por qué?
+¿Qué archivos cambió?
+¿Qué comando se ejecutó?
+¿Qué resultado produjo?
+¿Qué pruebas pasaron?
+¿Qué pruebas fallaron?
+```
+
+Crear:
+
+```text
+evidence/session/
+evidence/security/
+evidence/tests/
+evidence/architecture/
+```
+
+---
+
+# 16. FASE 6 — TEST HARNESS
+
+Crear:
+
+```text
+tests/
+├── core/
+├── shield/
+├── reviewer/
+├── planner/
+└── integration/
+```
+
+Cada componente nuevo debe tener tests.
+
+Regla:
+
+```text
+NO TEST
+=
+NO FINALIZADO
+```
+
+---
+
+# 17. FASE 7 — F-MEMORY
+
+Implementar primero memoria simple.
+
+Estructura:
+
+```text
+memory/
+├── session/
+├── candidates/
+├── verified/
+└── anti-patterns/
+```
+
+Flujo:
+
+```text
+SESIÓN
+ ↓
+OBSERVACIÓN
+ ↓
+CANDIDATO
+ ↓
+VALIDACIÓN
+ ↓
+VERIFICADO
+```
+
+No implementar todavía aprendizaje complejo.
+
+---
+
+# 18. F-MEMORY V2
+
+Después de demostrar memoria básica:
+
+```text
+candidate
+↓
+repetición
+↓
+confirmación
+↓
+confidence
+↓
+promotion
+```
+
+Toda memoria debe tener:
+
+```text
+id
+content
+origin
+created_at
+last_verified
+confidence
+domain
+status
+```
+
+No convertir automáticamente una corrección aislada en regla permanente.
+
+---
+
+# 19. FASE 8 — F-SKILLS
+
+Crear progresivamente:
+
+```text
+skills/
+├── fronda-planner/
+├── fronda-reviewer/
+├── fronda-shield/
+├── fronda-tdd/
+├── fronda-build/
+└── fronda-memory/
+```
+
+Cada una:
+
+```text
+SKILL.md
+references/
+scripts/
+```
+
+cuando sea necesario.
+
+El contenido pesado debe permanecer fuera del nivel inicial de carga, siguiendo Progressive Disclosure.
+
+---
+
+# 20. REGLA PARA SKILL.md
+
+El `SKILL.md` debe contener solamente:
+
+```text
+PROPÓSITO
+CUÁNDO USAR
+CUÁNDO NO USAR
+PROCEDIMIENTO
+REGLAS CRÍTICAS
+REFERENCIAS
+```
+
+No convertirlo en una enciclopedia.
+
+---
+
+# 21. FASE 9 — F-BUILD-RESOLVER
+
+Crear un agente especializado para:
+
+```text
+build errors
+dependency errors
+type errors
+test failures
+configuration errors
+```
+
+Debe:
+
+1. reproducir;
+2. localizar;
+3. explicar;
+4. proponer;
+5. corregir;
+6. volver a ejecutar;
+7. demostrar solución.
+
+Nunca ocultar errores simplemente para obtener PASS.
+
+---
+
+# 22. FASE 10 — F-BROWSER-QA
+
+Solo si el proyecto tiene interfaz web.
+
+Debe verificar:
+
+```text
+navegación
+DOM
+formularios
+errores
+responsividad
+flujos principales
+```
+
+Debe producir evidencia.
+
+No declarar:
+
+```text
+"UI funciona"
+```
+
+solo porque la página abrió.
+
+---
+
+# 23. FASE 11 — F-FLEET
+
+Cuando los agentes individuales estén estabilizados:
+
+```text
+F-Planner
+F-Builder
+F-Reviewer
+F-Shield
+F-BuildResolver
+F-Memory
+F-BrowserQA
+```
+
+El orquestador debe delegar según función.
+
+No permitir que un agente tenga todos los permisos por comodidad.
+
+---
+
+# 24. MATRIZ DE PERMISOS
+
+Crear:
+
+```text
+docs/AGENT_PERMISSIONS.md
+```
+
+Ejemplo:
+
+| Agente    | Read | Search |      Execute |     Write | Delete |
+| --------- | ---: | -----: | -----------: | --------: | -----: |
+| Planner   |    ✓ |      ✓ |     limitado |         ✗ |      ✗ |
+| Reviewer  |    ✓ |      ✓ |            ✗ |         ✗ |      ✗ |
+| Builder   |    ✓ |      ✓ |            ✓ |         ✓ |      ✗ |
+| Shield    |    ✓ |      ✓ | según prueba |         ✗ |      ✗ |
+| Memory    |    ✓ |      ✓ |     limitado |   memoria |      ✗ |
+| BrowserQA |    ✓ |      ✓ |      browser | evidencia |      ✗ |
+
+No asumas que Antigravity permite exactamente esta matriz.
+
+Adáptala al mecanismo real disponible.
+
+---
+
+# 25. FASE 12 — CLI
+
+Solo después de que el sistema funcione internamente.
+
+Crear:
+
+```text
+frondabrick doctor
+frondabrick validate
+frondabrick audit
+frondabrick shield
+frondabrick memory
+```
+
+Después:
+
+```text
+frondabrick init
+```
+
+Y finalmente perfiles.
+
+No desarrollar perfiles antes de tener necesidades reales.
+
+---
+
+# 26. FASE 13 — RED TEAM
+
+Crear:
+
+```text
+tests/
+└── adversarial/
+```
+
+Intentar romper Frondabrick.
+
+Casos:
+
+```text
+A01 — intentar saltar reglas
+A02 — intentar ejecutar comando destructivo
+A03 — introducir secreto
+A04 — engañar al Reviewer
+A05 — introducir memoria falsa
+A06 — provocar falso PASS
+A07 — provocar loop
+A08 — saturar contexto
+A09 — provocar permisos excesivos
+A10 — ocultar error de compilación
+```
+
+Cada ataque debe terminar en:
+
+```text
+BLOCKED
+DETECTED
+ESCALATED
+FAILED
+```
+
+---
+
+# 27. FASE 14 — PRUEBA E2E
+
+Crear un proyecto de prueba aislado.
+
+Ejecutar:
+
+```text
+USER REQUEST
+      ↓
+PLANNER
+      ↓
+PLAN
+      ↓
+BUILDER
+      ↓
+F-SHIELD
+      ↓
+TEST
+      ↓
+REVIEWER
+      ↓
+EVIDENCE
+      ↓
+MEMORY
+      ↓
+FINAL
+```
+
+La prueba debe ser reproducible.
+
+---
+
+# 28. FASE 15 — DOCTOR
+
+`frondabrick doctor` debe verificar:
+
+```text
+[ ] Antigravity compatible
+[ ] plugin válido
+[ ] rules válidas
+[ ] skills válidas
+[ ] agentes válidos
+[ ] scripts ejecutables
+[ ] hooks válidos
+[ ] memoria accesible
+[ ] tests disponibles
+[ ] configuración correcta
+```
+
+Debe mostrar:
+
+```text
+PASS
+WARN
+FAIL
+```
+
+Nunca ocultar WARN o FAIL.
+
+---
+
+# 29. DOCUMENTACIÓN OBLIGATORIA
+
+Mantener:
+
+```text
+docs/
+├── ARCHITECTURE.md
+├── ANTIGRAVITY_CAPABILITIES.md
+├── AGENT_PERMISSIONS.md
+├── SECURITY.md
+├── MEMORY.md
+├── SKILLS.md
+├── TESTING.md
+├── EXPERIMENTS.md
+└── CHANGELOG.md
+```
+
+---
+
+# 30. ESTADO DE CADA COMPONENTE
+
+Todo componente debe tener:
+
+```text
+DESIGN
+↓
+IMPLEMENTED
+↓
+TESTED
+↓
+VERIFIED
+```
+
+No utilizar:
+
+```text
+DONE
+```
+
+si únicamente está implementado.
+
+---
+
+# 31. PROTOCOLO DE ERROR
+
+Cuando encuentres un problema:
+
+```text
+NO ocultarlo
+NO saltarlo
+NO inventar una solución
+NO modificar diez cosas simultáneamente
+```
+
+Debes:
+
+```text
+1. reproducir
+2. aislar
+3. identificar causa
+4. realizar el cambio mínimo
+5. probar
+6. documentar
+```
+
+---
+
+# 32. REGLA DE CAMBIO MÍNIMO
+
+Preferir:
+
+```text
+1 archivo
+```
+
+sobre:
+
+```text
+15 archivos
+```
+
+si ambos solucionan el problema.
+
+Preferir:
+
+```text
+10 líneas
+```
+
+sobre:
+
+```text
+300 líneas
+```
+
+si ambas soluciones son equivalentes.
+
+No introducir frameworks o dependencias externas sin necesidad demostrada.
+
+---
+
+# 33. REGLA DE DEPENDENCIAS
+
+Antes de añadir una dependencia:
+
+```text
+¿Es realmente necesaria?
+¿Puede resolverse con la librería estándar?
+¿Añade superficie de ataque?
+¿Añade mantenimiento?
+¿Añade complejidad?
+¿Existe una alternativa ya disponible?
+```
+
+Si no es necesaria:
+
+```text
+NO INSTALAR.
+```
+
+---
+
+# 34. CHECKPOINT OBLIGATORIO
+
+Después de cada fase debes detenerte y generar:
+
+```text
+PHASE_REPORT.md
+```
+
+con:
+
+```text
+FASE
+OBJETIVO
+IMPLEMENTADO
+NO IMPLEMENTADO
+PRUEBAS
+RESULTADOS
+ERRORES
+RIESGOS
+DECISIONES
+SIGUIENTE FASE
+```
+
+No avances automáticamente si una fase crítica falla.
+
+---
+
+# 35. ORDEN DEFINITIVO
+
+Implementa exactamente en este orden:
+
+```text
+FASE 0
+Auditoría Antigravity
+
+FASE 1
+F-Core
+
+FASE 2
+F-Reviewer
+
+FASE 3
+F-Planner
+
+FASE 4
+F-Shield
+
+FASE 5
+Evidence
+
+FASE 6
+Test Harness
+
+FASE 7
+F-Memory
+
+FASE 8
+F-Skills
+
+FASE 9
+F-Build-Resolver
+
+FASE 10
+F-BrowserQA
+
+FASE 11
+F-Fleet
+
+FASE 12
+CLI
+
+FASE 13
+Red Team
+
+FASE 14
+E2E
+
+FASE 15
+Doctor / Packaging
+```
+
+---
+
+# 36. CONDICIÓN DE ÉXITO
+
+Frondabrick se considera operativo cuando pueda demostrar:
+
+```text
+✓ reglas aplicadas
+✓ agentes con permisos separados
+✓ planificación antes de cambios complejos
+✓ protección ante operaciones peligrosas
+✓ tests reproducibles
+✓ auditoría independiente
+✓ memoria controlada
+✓ evidencia de ejecución
+✓ ataques detectados/bloqueados
+✓ recuperación ante errores
+✓ diagnóstico reproducible
+```
+
+---
+
+# 37. REGLA FINAL PARA ANTIGRAVITY
+
+No intentes terminar Frondabrick en una sola ejecución.
+
+Trabaja como ingeniero:
+
+```text
+OBSERVAR
+→
+PLANIFICAR
+→
+IMPLEMENTAR
+→
+PROBAR
+→
+AUDITAR
+→
+DOCUMENTAR
+→
+REPETIR
+```
+
+Si descubres que una característica descrita en este plan no existe en Antigravity:
+
+**NO LA SIMULES.**
+
+Documenta:
+
+```text
+NO SOPORTADO
+```
+
+y propón una alternativa basada exclusivamente en capacidades realmente disponibles.
+
+Si una decisión arquitectónica anterior resulta incorrecta:
+
+**CORRÍGELA.**
+
+No mantengas una arquitectura por fidelidad al documento.
+
+La evidencia manda.
+
+---
+
+# 38. PRIMERA ORDEN DE EJECUCIÓN
+
+Comienza ahora.
+
+### PASO 1
+
+Inspecciona completamente el workspace.
+
+### PASO 2
+
+Determina las capacidades reales de Antigravity disponibles en este entorno.
+
+### PASO 3
+
+Crea `docs/ANTIGRAVITY_CAPABILITIES.md`.
+
+### PASO 4
+
+Crea `experiments/EXP-001`.
+
+### PASO 5
+
+Realiza las pruebas mínimas necesarias para validar Rules, Skills, Agents, Hooks, permisos y ejecución.
+
+### PASO 6
+
+Presenta un informe antes de comenzar F-Core.
+
+### PASO 7
+
+Si las capacidades mínimas están demostradas, comienza F-Core.
+
+### PASO 8
+
+Después de cada fase ejecuta sus tests y genera `PHASE_REPORT.md`.
+
+### PASO 9
+
+No avances una fase crítica con FAIL abierto.
+
+### PASO 10
+
+Al finalizar, entrega:
+
+```text
+ESTADO FINAL
+ARCHIVOS CREADOS
+ARCHIVOS MODIFICADOS
+TESTS
+RESULTADOS
+CAPACIDADES DEMOSTRADAS
+CAPACIDADES NO SOPORTADAS
+RIESGOS
+PENDIENTES
+SIGUIENTE ACCIÓN
+```
+
+**Empieza por FASE 0. No escribas todavía el sistema completo.**
