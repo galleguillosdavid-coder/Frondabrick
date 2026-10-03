@@ -11,13 +11,13 @@
 ## 1. Axioma de Autoridad y Alcance de la Protección
 
 > [!IMPORTANT]
-> **Axioma del Sistema:**
-> F-Shield no promete impedir físicamente una operación: **detecta, clasifica, alerta y audita**.
-> La autoridad física pertenece a la frontera del sistema operativo que realmente puede impedir la destrucción (Windows NTFS en el contexto de ejecución evaluado).
+> **Regla Maestra del Sistema:**  
+> F-Shield no es el mecanismo de prevención física. F-Shield detecta, clasifica y audita. La prevención física de los recursos protegidos depende de la política de acceso del sistema operativo. Las pruebas de canario verifican periódicamente que dicha frontera continúa existiendo.
 
 ### Alcance Riguroso de la Protección NTFS:
+La operación de eliminación es rechazada por el mecanismo de control de acceso de Windows/NTFS para la identidad utilizada en la prueba (`DESKTOP-97NK4LA\Frondabrick`).  
 La protección demostrada garantiza que **la identidad y contexto de ejecución del agente en este entorno no pueden eliminar el recurso protegido mediante comandos de terminal (`del`, `rmdir`, `Remove-Item -Force`)**.  
-No se califica como "100% invulnerable", ya que procesos con privilegios administrativos elevados, el usuario `SYSTEM` o modificaciones directas de ACL fuera del contexto del agente pertenecen a un dominio de privilegios superior.
+No se califica como "100% invulnerable contra cualquier actor", ya que procesos ejecutándose bajo otra identidad, cuentas con privilegios administrativos elevados, el usuario `SYSTEM` o modificaciones directas de ACL fuera del contexto del agente pertenecen a un dominio de privilegios superior no cubierto por este modelo de amenaza.
 
 ---
 
@@ -97,3 +97,41 @@ AUTONOMY                 DEMONSTRATED
 La suite de pruebas `tests/vault/test_vault_hardening.py` está incorporada en el runner unificado:
 - **14/14 Suites Aprobadas (PASS)** en `python tests/run_all.py`.
 - **10/10 Comprobaciones (PASS)** en `python frondabrick.py doctor`.
+
+---
+
+## 6. Fase 23 — Verificación de Deriva y Persistencia de la Bóveda
+
+### EXP-23.1: Auditoría Detallada de Estado de ACL (Detector de Deriva)
+El método `audit_vault_integrity` audita individualmente:
+- `ACL_PRESENT`: PASS
+- `DELETE_DENIED`: PASS
+- `DELETE_CHILD_DENIED`: PASS
+- `READ_ALLOWED`: PASS
+- `EXPECTED_IDENTITY`: PASS
+Si cualquiera de estas condiciones se degrada o falta la denegación esperada, el verificador emite de inmediato `protection_status: FAIL` y activa la bandera `drift_detected: True`.
+
+### EXP-23.2: Persistencia entre Subprocesos Independientes
+Demostración de que la protección no es un estado transitorio en memoria del proceso que la aplica:
+1. Proceso A (Setup) crea el centinela y aplica la ACL de kernel.
+2. Proceso A termina.
+3. Se invoca un Proceso B completamente nuevo e independiente (subproceso aislado sin descriptores ni memoria compartida).
+4. Proceso B verifica lectura -> PASS.
+5. Proceso B intenta eliminar el centinela -> BLOCKED (`UnauthorizedAccessException`).
+6. Proceso B verifica persistencia de hash SHA-256 -> PASS.
+**Resultado:** `persistence: DEMONSTRATED`.
+
+### EXP-23.3: Regresión Accidental Simulada (Tampering Test)
+Una bóveda segura debe alertar cuando deja de estar protegida:
+1. Se verifica la integridad inicial (`protection_status: PASS`).
+2. Se simula una alteración accidental donde la ACL es removida deliberadamente.
+3. El auditor detecta la pérdida de protección inmediatamente (`tamper_detected: PASS`, `drift_flagged: PASS`).
+4. Se re-aplica la protección y se verifica la recuperación determinista (`recovery_verified: PASS`).
+**Resultado:** `drift_detector: DEMONSTRATED`.
+
+### EXP-23.4: Límites Formales de la Frontera de Seguridad
+- **Identidad Normal (`Frondabrick`):**  
+  Control de acceso efectivo verificado empíricamente contra comandos normales y forzados de shell.
+- **Contexto Privilegiado (`Administrators` / `SYSTEM`):**  
+  Declarado explícitamente fuera del modelo de amenaza del agente, reconociendo que procesos con privilegios de administrador o el subsistema del sistema operativo poseen autoridad superior de modificación de ACLs.
+

@@ -72,7 +72,241 @@ class VaultVerifier:
             text=True,
             cwd=str(WORKSPACE_ROOT)
         )
-        return res.returncode == 0
+    @staticmethod
+    def audit_vault_integrity(target_path: Path) -> Dict[str, Any]:
+        """
+        EXP-23.1: Detailed ACL Audit & Drift Detector.
+        Verifies:
+        - ACL_PRESENT
+        - DELETE_DENIED
+        - DELETE_CHILD_DENIED
+        - READ_ALLOWED
+        - EXPECTED_IDENTITY
+        Detects UNEXPECTED_ACE, PROTECTION_MISSING, or ACL_DRIFT.
+        """
+        username = os.environ.get("USERNAME", "")
+        report = {
+            "acl_present": "FAIL",
+            "delete_denied": "FAIL",
+            "delete_child_denied": "FAIL",
+            "read_allowed": "FAIL",
+            "expected_identity": "FAIL",
+            "protection_status": "FAIL",
+            "drift_detected": True,
+            "raw_acl": ""
+        }
+
+        if not target_path.exists():
+            return report
+
+        # Test read
+        try:
+            if target_path.is_dir():
+                _ = list(target_path.iterdir())
+            else:
+                _ = target_path.read_bytes()
+            report["read_allowed"] = "PASS"
+        except Exception:
+            report["read_allowed"] = "FAIL"
+
+        res = subprocess.run(
+            ["icacls", str(target_path)],
+            capture_output=True,
+            text=True,
+            cwd=str(WORKSPACE_ROOT)
+        )
+        raw = res.stdout.strip()
+        report["raw_acl"] = raw
+
+        if res.returncode == 0 and raw:
+            report["acl_present"] = "PASS"
+
+        # Check expected identity and deny flags
+        if username and username.lower() in raw.lower():
+            report["expected_identity"] = "PASS"
+
+        # Check specific denial of DE and DC
+        if "(DENY)" in raw or "(I)(DENY)" in raw:
+            if "(DE" in raw or ":(DENY)(DE" in raw or "(DE,DC)" in raw:
+                report["delete_denied"] = "PASS"
+            if "DC" in raw or "(DE,DC)" in raw:
+                report["delete_child_denied"] = "PASS"
+
+        # Overall protection assessment
+        is_protected = (
+            report["acl_present"] == "PASS" and
+            report["delete_denied"] == "PASS" and
+            report["delete_child_denied"] == "PASS" and
+            report["read_allowed"] == "PASS" and
+            report["expected_identity"] == "PASS"
+        )
+
+        if is_protected:
+            report["protection_status"] = "PASS"
+            report["drift_detected"] = False
+        else:
+            report["protection_status"] = "FAIL"
+            report["drift_detected"] = True
+
+        return report
+
+    @classmethod
+    def run_persistence_test(cls, base_dir: Optional[Path] = None) -> Dict[str, Any]:
+        """
+        EXP-23.2: Persistence test across independent child processes.
+        Applies protection in process A, terminates process A, launches
+        a completely new and independent process B that attempts deletion.
+        """
+        root = base_dir or WORKSPACE_ROOT
+        persist_dir = root / "sentinel_persistence_vault_tmp"
+        persist_file = persist_dir / "canary.txt"
+
+        report = {
+            "setup_process": "FAIL",
+            "independent_process_read": "FAIL",
+            "independent_process_delete_blocked": "FAIL",
+            "canary_survival": "FAIL",
+            "hash_match": "FAIL",
+            "persistence": "NOT_DEMONSTRATED"
+        }
+
+        try:
+            # 1. Setup in current process
+            if persist_dir.exists():
+                cls.remove_protection(persist_dir)
+                subprocess.run(["powershell", "-Command", f"Remove-Item -Recurse -Force '{persist_dir}'"], capture_output=True)
+
+            persist_dir.mkdir(parents=True, exist_ok=True)
+            secret_payload = "PERSISTENCE_ACROSS_ISOLATED_PROCESSES_2026"
+            persist_file.write_text(secret_payload, encoding="utf-8")
+            expected_hash = hashlib.sha256(secret_payload.encode("utf-8")).hexdigest()
+
+            applied = cls.apply_protection(persist_dir)
+            if not applied:
+                return report
+            report["setup_process"] = "PASS"
+
+            # 2. Spawn a completely separate, independent Python process to attack
+            attack_script = f"""
+import sys, os, hashlib, subprocess
+from pathlib import Path
+
+p_dir = Path(r'{persist_dir}')
+p_file = Path(r'{persist_file}')
+
+# 1. Read
+try:
+    content = p_file.read_text(encoding='utf-8')
+    assert content == '{secret_payload}'
+    print('INDEPENDENT_READ_OK')
+except Exception as e:
+    print('INDEPENDENT_READ_FAIL:', e)
+
+# 2. Attack deletion
+res_del = subprocess.run(['powershell', '-Command', f"Remove-Item -Recurse -Force '{{p_dir}}'"], capture_output=True, text=True)
+if p_dir.exists() and p_file.exists():
+    print('INDEPENDENT_DELETE_BLOCKED')
+else:
+    print('INDEPENDENT_DELETE_SUCCEEDED_ATTACK')
+
+# 3. Hash
+if p_file.exists():
+    h = hashlib.sha256(p_file.read_text(encoding='utf-8').encode('utf-8')).hexdigest()
+    if h == '{expected_hash}':
+        print('INDEPENDENT_HASH_MATCH')
+"""
+            subproc = subprocess.run(
+                [sys.executable, "-c", attack_script],
+                capture_output=True,
+                text=True,
+                cwd=str(WORKSPACE_ROOT)
+            )
+
+            stdout = subproc.stdout
+            if "INDEPENDENT_READ_OK" in stdout:
+                report["independent_process_read"] = "PASS"
+            if "INDEPENDENT_DELETE_BLOCKED" in stdout:
+                report["independent_process_delete_blocked"] = "PASS"
+            if persist_dir.exists() and persist_file.exists():
+                report["canary_survival"] = "PASS"
+            if "INDEPENDENT_HASH_MATCH" in stdout:
+                report["hash_match"] = "PASS"
+
+            if (report["setup_process"] == "PASS" and
+                report["independent_process_read"] == "PASS" and
+                report["independent_process_delete_blocked"] == "PASS" and
+                report["canary_survival"] == "PASS" and
+                report["hash_match"] == "PASS"):
+                report["persistence"] = "DEMONSTRATED"
+
+        finally:
+            if persist_dir.exists():
+                cls.remove_protection(persist_dir)
+                subprocess.run(["powershell", "-Command", f"Remove-Item -Recurse -Force '{persist_dir}'"], capture_output=True)
+
+        return report
+
+    @classmethod
+    def run_drift_simulation_test(cls, base_dir: Optional[Path] = None) -> Dict[str, Any]:
+        """
+        EXP-23.3: Accidental regression / ACL drift simulation.
+        1. Confirms vault integrity passes when protected.
+        2. Deliberately simulates protection removal (drift).
+        3. Asserts audit_vault_integrity catches the failure and flags ACL_DRIFT.
+        4. Re-applies protection and asserts recovery.
+        """
+        root = base_dir or WORKSPACE_ROOT
+        drift_dir = root / "sentinel_drift_simulation_tmp"
+        drift_file = drift_dir / "target.txt"
+
+        report = {
+            "initial_protection": "FAIL",
+            "tamper_detected": "FAIL",
+            "drift_flagged": "FAIL",
+            "recovery_verified": "FAIL",
+            "drift_detector": "NOT_DEMONSTRATED"
+        }
+
+        try:
+            if drift_dir.exists():
+                cls.remove_protection(drift_dir)
+                subprocess.run(["powershell", "-Command", f"Remove-Item -Recurse -Force '{drift_dir}'"], capture_output=True)
+
+            drift_dir.mkdir(parents=True, exist_ok=True)
+            drift_file.write_text("DRIFT_DETECTION_TEST", encoding="utf-8")
+
+            # Step 1: Normal protection applied
+            cls.apply_protection(drift_dir)
+            audit_init = cls.audit_vault_integrity(drift_dir)
+            if audit_init["protection_status"] == "PASS" and not audit_init["drift_detected"]:
+                report["initial_protection"] = "PASS"
+
+            # Step 2: Deliberate tamper (simulate accidental ACL removal)
+            cls.remove_protection(drift_dir)
+            audit_tampered = cls.audit_vault_integrity(drift_dir)
+            if audit_tampered["protection_status"] == "FAIL":
+                report["tamper_detected"] = "PASS"
+            if audit_tampered["drift_detected"] is True:
+                report["drift_flagged"] = "PASS"
+
+            # Step 3: Re-apply and verify recovery
+            cls.apply_protection(drift_dir)
+            audit_recovered = cls.audit_vault_integrity(drift_dir)
+            if audit_recovered["protection_status"] == "PASS" and not audit_recovered["drift_detected"]:
+                report["recovery_verified"] = "PASS"
+
+            if (report["initial_protection"] == "PASS" and
+                report["tamper_detected"] == "PASS" and
+                report["drift_flagged"] == "PASS" and
+                report["recovery_verified"] == "PASS"):
+                report["drift_detector"] = "DEMONSTRATED"
+
+        finally:
+            if drift_dir.exists():
+                cls.remove_protection(drift_dir)
+                subprocess.run(["powershell", "-Command", f"Remove-Item -Recurse -Force '{drift_dir}'"], capture_output=True)
+
+        return report
 
     @classmethod
     def run_canary_test(cls, base_dir: Optional[Path] = None) -> Dict[str, Any]:

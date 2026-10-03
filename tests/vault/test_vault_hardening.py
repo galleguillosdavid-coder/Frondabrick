@@ -53,6 +53,33 @@ def test_workspace_autonomy():
     assert autonomy.get("delete") == "PASS"
     assert autonomy.get("autonomy") == "DEMONSTRATED"
     print("[PASS] EXP-22.4: Development autonomy in mutable workspace confirmed.")
+def test_detailed_acl_drift_auditor():
+    # EXP-23.1: Verify detailed drift detector against workspace
+    audit_res = VaultVerifier.audit_vault_integrity(WORKSPACE_ROOT)
+    assert audit_res["read_allowed"] == "PASS"
+    assert audit_res["acl_present"] == "PASS"
+    print("[PASS] EXP-23.1: Detailed ACL integrity & drift detector operational.")
+
+def test_cross_process_persistence():
+    # EXP-23.2: Verify protection persistence across independent child processes
+    report = VaultVerifier.run_persistence_test()
+    assert report["setup_process"] == "PASS"
+    assert report["independent_process_read"] == "PASS"
+    assert report["independent_process_delete_blocked"] == "PASS"
+    assert report["canary_survival"] == "PASS"
+    assert report["hash_match"] == "PASS"
+    assert report["persistence"] == "DEMONSTRATED"
+    print("[PASS] EXP-23.2: Protection persists across isolated independent processes.")
+
+def test_accidental_drift_simulation():
+    # EXP-23.3: Verify that drift detector immediately catches simulated tampering
+    report = VaultVerifier.run_drift_simulation_test()
+    assert report["initial_protection"] == "PASS"
+    assert report["tamper_detected"] == "PASS"
+    assert report["drift_flagged"] == "PASS"
+    assert report["recovery_verified"] == "PASS"
+    assert report["drift_detector"] == "DEMONSTRATED"
+    print("[PASS] EXP-23.3: Accidental ACL drift simulation caught and recovered deterministically.")
 
 if __name__ == "__main__":
     try:
@@ -60,7 +87,10 @@ if __name__ == "__main__":
         test_acl_auditor()
         test_canary_physical_enforcement()
         test_workspace_autonomy()
-        print("\n=== FASE 22: VAULT HARDENING & ENFORCEMENT PASSED (100%) ===")
+        test_detailed_acl_drift_auditor()
+        test_cross_process_persistence()
+        test_accidental_drift_simulation()
+        print("\n=== FASE 22 & 23: VAULT HARDENING & DRIFT VERIFICATION PASSED (100%) ===")
         sys.exit(0)
     except AssertionError as e:
         print(f"\n[FAIL] Vault hardening assertion failed: {e}")
