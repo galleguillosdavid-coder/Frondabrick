@@ -89,7 +89,10 @@ Para responder a lo desconocido y demostrar lo postulado, se establece la siguie
 | **INV-02** | **Selección de Patrón Noise Framework** | Elegir formalmente el handshake adecuado (Noise_IK vs Noise_XX) para IPVN7. | Análisis de matrices de seguridad de Noise Protocol y trade-off de RTT vs anonimato. | Dictamen técnico de handshake y protocolo de claves. |
 | **INV-03** | **Benchmarking de Primitivas Criptográficas** | Medir ciclos de CPU y consumo de memoria de ChaCha20-Poly1305 vs AES-GCM. | Micro-benchmarks en Python y C simulado en entornos controlados. | Tabla de costos criptográficos por KB transmitido. |
 | **INV-04** | **Estrategia de Fragmentación de Objetos** | Comparar fragmentación de Objeto en capa superior vs delegación a MTU fijo. | Simulación de pérdida de paquetes con pérdida uniforme y ráfagas (Gilbert-Elliott). | Algoritmo de fragmentación y reensamblaje mínimo. |
-| **INV-05** | **Protocolo de Verificación de Migración de Camino** | Definir el mecanismo anti-spoofing para actualización de endpoint remoto. | Análisis de vectores de secuestro y diseño de reto-respuesta de 1 paquete. | Especificación del frame `PATH_MIGRATE` / `PATH_CONFIRM`. |
+| **INV-05** | **Protocolo de Verificación de Migración de Camino** | Definir el mecanismo anti-spoofing para actualización de endpoint remoto. | Análisis de vectores de secuestro y diseño de reto-respuesta de 1 paquete. | Especificación del frame `PATH_CHALLENGE` / `PATH_RESPONSE`. |
+| **INV-06** | **Planificación de Salida y Mitigación de Bloqueo de Cabeza de Línea (HoL)** | Evaluar impacto de cola priorizada multi-nivel (0 a 7) sobre ráfagas masivas. | Simulación de ráfagas masivas con intercalación concurrente de mensajes de control urgente. | Algoritmo `IPVN7EgressScheduler`. |
+| **INV-07** | **Re-claveo en Vuelo y Ventana de Gracia Dual** | Rotación fluida de claves simétricas sin pérdida de paquetes rezagados. | Ratchet unidireccional HKDF-SHA256 con preservación temporal de índices duales. | Especificación `OBJ_REKEY_ANNOUNCE` y `OBJ_REKEY_ACK`. |
+| **INV-08** | **Mapeo de NAT y Transversalidad Silenciosa (Hole-Punching)** | Establecimiento de canales directos p2p a través de NAT sin servidores de retransmisión permanentes. | Emulación de NAT de cono restringido / simétrico y keepalives adaptativos. | Protocolo de señalización y apertura de puertos UDP. |
 
 ---
 

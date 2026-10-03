@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-10-03T10:37:56.604982+00:00",
+  "session_id": "1b747255-94fb-4554-a905-730c7fb9b9d3",
+  "category": "tests",
+  "title": "Correlation Probe Run",
+  "evidence": {
+    "what": "Ejecución de acción correlacionada F26.1",
+    "why": "Demostrar trazabilidad entre session_id y evidencia registrada",
+    "files_changed": [],
+    "command_executed": "python -c 'print(1)'",
+    "result": "PASS",
+    "tests_passed": [
+      "test_sample"
+    ],
+    "tests_failed": []
+  },
+  "metadata": {}
+}

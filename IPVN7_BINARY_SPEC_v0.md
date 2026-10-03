@@ -189,6 +189,8 @@ Los objetos viajan **dentro** de la carga cifrada del contenedor. Un solo conten
    - `0x04`: `FILE_FRAGMENT` (Fragmento indexado de archivo o transferencia masiva).
    - `0x05`: `RPC_COMMAND` (Comando o solicitud de invocación).
    - `0x06`: `RPC_RESPONSE` (Resultado o respuesta a invocación).
+   - `0x07`: `REKEY_ANNOUNCE` (Anuncio de rotación de clave HKDF con nuevo índice y época).
+   - `0x08`: `REKEY_ACK` (Confirmación de re-claveo y activación de ventana de gracia dual).
 2. **`Flags / Priority` (uint8, 1 byte):**
    - Bits `[7:5]` (3 bits): Nivel de prioridad de entrega ($0 = \text{Baja / Fondo}$, $4 = \text{Normal}$, $7 = \text{Urgente / Control}$).
    - Bit `[4]` (1 bit): `FRAG` (El objeto es parte de una secuencia fragmentada).

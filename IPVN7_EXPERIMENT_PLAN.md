@@ -331,18 +331,57 @@ Si el resultado no supera el criterio estricto de éxito o resulta inferior al b
 
 ---
 
+### Experimento EXP-IPVN7-09: Re-claveo en Vuelo Transparente y Ventana de Gracia Dual (In-Flight Rekeying & Grace Window Ratchet)
+
+* **OBJETIVO:**  
+  Demostrar que una sesión IPVN7 puede rotar periódicamente sus claves simétricas criptográficas (HKDF ratchet) sin pérdida de paquetes en tránsito (*zero packet loss*), admitiendo paquetes rezagados mediante una ventana de gracia dual (*dual-key reception window*), reiniciando los contadores de secuencia de 32 bits a 1 sin riesgo de colisión de nonces, y purgando de manera determinista la clave obsoleta al expirar la ventana de gracia.
+* **HIPÓTESIS:**  
+  El uso de `OBJ_REKEY_ANNOUNCE` y `OBJ_REKEY_ACK` coordinados mediante índices de receptor rotativos (`rx_index`) desacoplados por época permite una transición continua de claves donde los datagramas emitidos con la clave antigua durante la ventana de gracia se descifran y validan contra replay independientemente de la nueva clave activa, garantizando 0% de pérdidas y purga total de la clave previa.
+* **MÉTODO:**  
+  1. Configuración de sesión con claves de Época 1 y umbral de re-claveo configurado a 30 paquetes.
+  2. Transmisión de 28 paquetes en Época 1; generación de un paquete 29 retenido en vuelo (*in-flight lag*).
+  3. Activación de rekeying en secuencia 30 emitiendo `OBJ_REKEY_ANNOUNCE` con nuevo índice y derivación HKDF.
+  4. Bob transiciona a Época 2, activa ventana de gracia temporal para el índice antiguo y responde con `OBJ_REKEY_ACK`.
+  5. Alice transiciona a Época 2 y reinicia `send_seq` a 1.
+  6. Transmisión de 5 paquetes en Época 2.
+  7. Inyección del paquete rezagado 29 de Época 1 durante la ventana de gracia.
+  8. Ataques adversariales: inyección de replay del paquete rezagado, inyección tras expiración de la gracia (0.7s) y corrupción bit a bit de 500 datagramas de Época 2.
+* **VARIABLES:**  
+  - *Independientes*: Umbral de rekeying (30 paquetes), duración de gracia (0.7 s), época criptográfica.
+  - *Dependientes*: Tasa de pérdida durante la rotación (%), aceptación de paquetes rezagados (%), descarte de replays y datagramas post-gracia (%).
+* **SUITE ASOCIADA:**  
+  `tests/ipvn7/test_exp_09_rekeying.py` (Módulo: `scripts/ipvn7/rekeying.py`).
+* **RESULTADO ESPERADO:**  
+  0% de pérdida en transición; 100% de entrega del paquete rezagado en gracia; 100% descarte de replays; purga efectiva de clave previa tras expiración.
+* **RESULTADO MEDIDO:**  
+  - Pérdida de paquetes en transición: **0.0%** (continuidad fluida verificada).
+  - Entrega de paquetes rezagados en gracia: **100.0%** (aceptados y descifrados correctamente con clave dual).
+  - Resistencia a replay en gracia: **100.0% descarte** (rechazado por ventana anti-replay desacoplada).
+  - Purga de clave previa post-gracia: **DEMOSTRADA** (índice 200 destruido de memoria; paquetes tardíos descartados al 100%).
+  - Resistencia a corrupción: **500/500 datagramas corruptos descartados** silenciosamente (100.0%).
+  - Reinicio de secuencia: `send_seq -> 1` verificado en ambas direcciones sin reutilización de par `(clave, nonce)`.
+  - Dictamen: **DEMOSTRADO (PASS)**.
+* **CRITERIO PASS:**  
+  0% pérdidas en transición; entrega exitosa del paquete rezagado; 100% rechazo de replays y paquetes post-gracia; reinicio limpio a secuencia 1.
+* **CRITERIO FAIL:**  
+  Pérdida de paquetes durante el intercambio de anuncios, fallo al descifrar el paquete rezagado en gracia, o retención de la clave previa más allá del periodo de gracia.
+* **LIMITACIONES:**  
+  La derivación de clave se basa en un ratchet unidireccional HKDF-SHA256 derivado de la clave simétrica anterior; un compromiso de la clave en memoria permitiría calcular épocas futuras (no es un ratchet asimétrico completo estilo Double Ratchet, el cual requeriría un intercambio DH adicional).
+
+---
+
 ## 3. Estado de la Batería Experimental
 
 ```text
 ============================================================
 PLAN EXPERIMENTAL IPVN7 — ESTADO VIGENTE
 ============================================================
-TOTAL EXPERIMENTOS DEFINIDOS : 8
-EXPERIMENTOS EJECUTADOS      : 8 / 8
-DEMOSTRADO                   : 5 / 8 (EXP-01, EXP-02, EXP-06, EXP-07, EXP-08)
-PARCIALMENTE DEMOSTRADO      : 2 / 8 (EXP-03, EXP-05)
-INFERENCIA / MODELO TEÓRICO  : 1 / 8 (EXP-04)
-REFUTADO                     : 0 / 8
+TOTAL EXPERIMENTOS DEFINIDOS : 9
+EXPERIMENTOS EJECUTADOS      : 9 / 9
+DEMOSTRADO                   : 6 / 9 (EXP-01, EXP-02, EXP-06, EXP-07, EXP-08, EXP-09)
+PARCIALMENTE DEMOSTRADO      : 2 / 9 (EXP-03, EXP-05)
+INFERENCIA / MODELO TEÓRICO  : 1 / 9 (EXP-04)
+REFUTADO                     : 0 / 9
 CRITERIO GENERAL             : REFUTABILIDAD ESTRICTA Y CERO AUTOENGAÑO
 ============================================================
 ```

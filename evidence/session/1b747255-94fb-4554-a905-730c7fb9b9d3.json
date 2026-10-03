@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "session_id": "1b747255-94fb-4554-a905-730c7fb9b9d3",
+  "intent": "EXP-26.1 Controlled Verification Session",
+  "started_at": "2026-10-03T10:37:56.348644+00:00",
+  "closed_at": "2026-10-03T10:37:56.624488+00:00",
+  "process": {
+    "pid": 6868,
+    "parent_pid": 16648
+  },
+  "git": {
+    "commit": "f12c1a93b25ce360d0ed8f33095f853d85a27f8b",
+    "branch": "main",
+    "dirty": true
+  },
+  "vault": {
+    "protection_status": "PASS",
+    "drift_detected": false,
+    "acl_present": "PASS",
+    "delete_denied": "PASS",
+    "canary_sha256": "0469606ef2fd9aca3debabc5931d56a8cb480fed3b826d22a99d6cc6591891f2"
+  },
+  "events_count": 2,
+  "events": [
+    {
+      "event_id": "evt_945597f5",
+      "session_id": "1b747255-94fb-4554-a905-730c7fb9b9d3",
+      "event_type": "session_start",
+      "timestamp": "2026-10-03T10:37:56.348644+00:00",
+      "pid": 6868,
+      "parent_pid": 16648,
+      "data": {
+        "intent": "EXP-26.1 Controlled Verification Session"
+      }
+    },
+    {
+      "event_id": "evt_82aee138",
+      "session_id": "1b747255-94fb-4554-a905-730c7fb9b9d3",
+      "event_type": "action_executed",
+      "timestamp": "2026-10-03T10:37:56.623630+00:00",
+      "pid": 6868,
+      "data": {
+        "command": "python tests/core/test_token_counter.py",
+        "exit_code": 0,
+        "command_hash": "511698a1d5204d8b5d7792cc5062983548fbdcbeb8b26d692182e3107482733f"
+      }
+    }
+  ],
+  "f_shield_events": [
+    {
+      "session_id": "1b747255-94fb-4554-a905-730c7fb9b9d3",
+      "stepIdx": 77777,
+      "tool": "run_command",
+      "decision": "allow",
+      "level": 1,
+      "reason": "Operación verificada por F-Shield."
+    }
+  ],
+  "evidence_records": [
+    {
+      "category": "tests",
+      "record": {
+        "timestamp": "2026-10-03T10:37:56.604982+00:00",
+        "session_id": "1b747255-94fb-4554-a905-730c7fb9b9d3",
+        "file": "1791023876_correlation_probe_run.json",
+        "title": "Correlation Probe Run",
+        "result": "PASS"
+      }
+    }
+  ],
+  "integrity_seal": {
+    "algorithm": "SHA-256",
+    "type": "INTEGRITY_SEAL",
+    "manifest_sha256": "eb3227b69a6f12abef4d57e119e17c25739b41b1787f34b5b264684c4d048f1e",
+    "events_sha256": "fcd017a83b85806c8d1fdfcdbf8d0149e6fd991989fd220abc47e7e5080d2c97",
+    "sealed_at": "2026-10-03T10:37:56.624488+00:00"
+  },
+  "final_status": "PASS"
+}

@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-10-03T10:37:59.843353+00:00",
+  "session_id": "70f56c14-a10b-4ed3-ad1a-0f3eb938a359",
+  "category": "tests",
+  "title": "Legitimate Development Run",
+  "evidence": {
+    "what": "Ejecución de prueba de resiliencia en desarrollo legítimo",
+    "why": "Verificar rama ALLOWED en EXP-26.4",
+    "files_changed": [
+      "src/probe.py"
+    ],
+    "command_executed": "python tests/core/test_resilience_probe.py",
+    "result": "PASS",
+    "tests_passed": [
+      "test_resilience_probe"
+    ],
+    "tests_failed": []
+  },
+  "metadata": {}
+}
