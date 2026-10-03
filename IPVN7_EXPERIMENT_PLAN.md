@@ -45,7 +45,8 @@ Si el resultado no supera el criterio estricto de éxito o resulta inferior al b
   - Para 16B payload: 84B (IPVN7) vs 106B (HTTP/2+TLS) -> Mejora relativa: **+26.2%**.
   - Para 64B payload: 132B (IPVN7) vs 154B (HTTP/2+TLS) -> Mejora relativa: **+16.7%** (Eficiencia: 48.48%).
   - Frente a WireGuard (con encapsulamiento L3 interno): IPVN7 ahorra 20B por mensaje.
-  - Dictamen: **PASS**.
+  - **Matiz Post-Auditoría:** Frente a un protocolo puro de aplicación sobre Noise (sin túnel L3), Noise consume 24B (8B contador + 16B tag). IPVN7 invierte 16B adicionales para soporte nativo de multiplexación de objetos tipados, versión y receptor.
+  - Dictamen: **DEMOSTRADO**.
 * **CRITERIO PASS:**  
   El encabezado base total de IPVN7 no supera los 28 bytes y la eficiencia para 64 bytes de payload supera a HTTP/2+TLS en al menos un 25% relativo.
 * **CRITERIO FAIL:**  
@@ -81,7 +82,8 @@ Si el resultado no supera el criterio estricto de éxito o resulta inferior al b
   - Tasa de descarte silente ante corrupción: **100.0%** (0 aceptados).
   - Ventana anti-replay de 128 posiciones: **Validada** (orden de verificación desacoplado del commit para evitar DoS por envenenamiento no autenticado).
   - Continuidad post-ataque: Paquete legítimo subsecuente descifrado y entregado intacto.
-  - Dictamen: **PASS**.
+  - **Matiz Post-Auditoría:** Se identifica la necesidad de política de rekeying obligatorio antes de $2^{32}$ datagramas para evitar agotamiento del nonce de 64 bits.
+  - Dictamen: **DEMOSTRADO**.
 * **CRITERIO PASS:**  
   $100\%$ de paquetes adulterados descartados sin excepción, 0 respuestas de error emitidas al medio (*Zero Oracles*), y estado interno de la sesión preservado sin corrupción de contadores.
 * **CRITERIO FAIL:**  
@@ -113,19 +115,21 @@ Si el resultado no supera el criterio estricto de éxito o resulta inferior al b
 * **RESULTADO ESPERADO:**  
   Handover inmediato en 0 RTT para tráfico unidireccional (recepción del paquete en la nueva IP aceptada de inmediato si el contador AEAD es válido) o 1 RTT si se activa reto de validación de camino (*Path Challenge*).
 * **RESULTADO OBSERVADO:**  
-  `DEMOSTRADO (tests/ipvn7/test_exp_03_migration.py)`:  
-  - Flujo bidireccional sobre sockets UDP reales de loopback (puertos 51001 y 51002 hacia 57077).
-  - Mutación en caliente de socket emisor sin renegociar claves ni reiniciar sesión: **100% éxito**.
+  `PARCIALMENTE DEMOSTRADO (tests/ipvn7/test_exp_03_migration.py)`:  
+  - Flujo bidireccional sobre sockets UDP locales de loopback (puertos 51001 y 51002 hacia 57077).
+  - Mutación de socket emisor sin renegociar claves ni reiniciar sesión: **100% éxito**.
   - Objetos recibidos en destino: **20/20** (10 en ruta 1, 10 en ruta 2).
   - Pérdida de paquetes en migración: **0.0%**.
-  - Handover: **0-RTT roaming** inmediato en el cable (asimila nuevo endpoint al validar tag AEAD).
-  - Dictamen: **PASS**.
+  - Handover: **0-RTT roaming en socket local** (asimila nuevo puerto al validar tag AEAD).
+  - **Límite Detectado:** Probado únicamente en loopback de puertos locales. NO demuestra roaming entre interfaces físicas distintas, redes celulares ni atravesamiento de NAT simétrico.
+  - **Vulnerabilidad Abierta:** La actualización incondicional del endpoint receptor sin reto (*Path Validation*) es vulnerable a ataques de reflexión/amplificación (requiere reto de 8B `PATH_CHALLENGE`).
+  - Dictamen: **PARCIALMENTE DEMOSTRADO**.
 * **CRITERIO PASS:**  
   El receptor actualiza el camino y reanuda el tráfico sin invalidar la sesión existente; tiempo de recuperación $\le 1\text{ RTT} + 5\text{ms}$; 0 fallos de sesión a nivel de aplicación.
 * **CRITERIO FAIL:**  
   La sesión se invalida o se cierra; se requiere un nuevo handshake criptográfico completo de sesión; o el tiempo de recuperación excede los $500\text{ms}$.
 * **LIMITACIONES:**  
-  Asume que el nuevo camino no tiene bloqueos firewall para tráfico UDP de retorno.
+  Asume que el nuevo camino no tiene bloqueos firewall para tráfico UDP de retorno y carece de validación de reto de camino.
 
 ---
 
@@ -148,19 +152,19 @@ Si el resultado no supera el criterio estricto de éxito o resulta inferior al b
 * **RESULTADO ESPERADO:**  
   mDNS: $\sim 300$ a $1,200$ paquetes/hora en ráfagas periódicas. IPVN7: $0$ paquetes en reposo absoluto (salvo sondas de sondeo explícitas de usuario). Reducción $> 90\%$.
 * **RESULTADO OBSERVADO:**  
-  `DEMOSTRADO (tests/ipvn7/test_exp_04_discovery.py)`:  
-  - Simulación de topología de 5 nodos en reposo durante 1 hora.
-  - Baseline mDNS / DNS-SD (RFC 6762): 175 paquetes, 49,000 bytes emitidos en reposo.
-  - IPVN7 Silencioso (consultas dirigidas bajo demanda): 4 paquetes, 304 bytes.
-  - Reducción de paquetes emitidos: **97.7%**.
-  - Reducción de bytes totales en el medio: **99.4%** (ahorro del 99.4% del tiempo de aire).
-  - Dictamen: **PASS**.
+  `INFERENCIA / MODELO TEÓRICO (tests/ipvn7/test_exp_04_discovery.py)`:  
+  - Modelo numérico simulado de 5 nodos en reposo durante 1 hora.
+  - Baseline analítico mDNS / DNS-SD (RFC 6762): 175 paquetes, 49,000 bytes emitidos en reposo.
+  - IPVN7 Silencioso (en simulación analítica): 4 paquetes, 304 bytes.
+  - Reducción analítica calculada: **99.4% en bytes** y 97.7% en paquetes.
+  - **Límite Metodológico Detectado en Auditoría:** La prueba fue una simulación computacional donde el nodo pasivo ejecuta `pass`. No constituyó una captura empírica sobre sockets reales de interfaz de red ni evaluó el costo de las sondas de sondeo broadcast iniciales requeridas para el bootstrap de descubrimiento.
+  - Dictamen: **INFERENCIA / MODELO TEÓRICO (Reclasificado post-auditoría)**.
 * **CRITERIO PASS:**  
   Reducción de bytes emitidos en reposo $\ge 80\%$ respecto al baseline mDNS en las mismas condiciones.
 * **CRITERIO FAIL:**  
   La reducción es $< 60\%$, o el mecanismo silencioso genera tormentas de respuesta que superan el tráfico de mDNS durante las búsquedas activas.
 * **LIMITACIONES:**  
-  El descubrimiento silencioso exige que el nodo solicitante conozca de antemano el `NodeID` o consulte a un directorio/Gateway local, sacrificando la naturaleza de "anuncio ciego" de Bonjour/UPnP.
+  El descubrimiento silencioso exige que el nodo solicitante conozca de antemano el `NodeID` o emita una sonda de sondeo inicial, sacrificando el anuncio ciego de servicios.
 
 ---
 
@@ -184,12 +188,12 @@ Si el resultado no supera el criterio estricto de éxito o resulta inferior al b
 * **RESULTADO ESPERADO:**  
   Para una pérdida del 3%, el esquema de fragmentos de IPVN7 consume $< 1.15 \times$ los bytes base del objeto, mientras que la retransmisión ingenua consume $> 1.45 \times$ y la fragmentación IP sufre descartes de datagramas completos.
 * **RESULTADO OBSERVADO:**  
-  `DEMOSTRADO (tests/ipvn7/test_exp_05_fragmentation.py)`:  
+  `PARCIALMENTE DEMOSTRADO (tests/ipvn7/test_exp_05_fragmentation.py)`:  
   - Fragmentación y reensamblaje de Objeto de 16,384 bytes en 17 fragmentos: **100% éxito** incluso con entrega desordenada.
-  - Intercalación prioritaria (Interleaving): Objeto Urgente (Prioridad 7) entregado en paso 4.5 en medio de transferencia masiva (Prioridad 1) con **0 retardo de cabeza de línea (Head-of-Line delay)**.
-  - Goodput en simulación de pérdida de 5%: Retransmisión selectiva requirió 21,492 B (Goodput: **89.3%**) vs retransmisión ingenua completa que requirió 38,912 B (Goodput: **49.3%**).
-  - Ahorro de ancho de banda ante pérdida: **44.8%**.
-  - Dictamen: **PASS**.
+  - Intercalación prioritaria (Interleaving): Objeto Urgente (Prioridad 7) entregado en paso 4.5 en medio de transferencia masiva (Prioridad 1) con **0 retardo en el reensamblador lógico**.
+  - Goodput en simulación de pérdida de 5%: Retransmisión selectiva requirió 21,492 B (Goodput: **89.3%**) vs retransmisión ingenua completa que requirió 38,912 B (Goodput: **49.3%**). Ahorro: **44.8%**.
+  - **Límite Detectado en Auditoría:** La intercalación sin retardo Head-of-Line fue demostrada en el **buffer lógico del reensamblador**, pero NO en la cola física del socket del emisor (`SO_SNDBUF`), la cual aún requiere un planificador de colas de prioridad de salida (*Egress Priority Scheduler*).
+  - Dictamen: **PARCIALMENTE DEMOSTRADO**.
 * **CRITERIO PASS:**  
   El Goodput Ratio con retransmisión selectiva de fragmentos de objeto supera en al menos un 20% al esquema de retransmisión completa para pérdidas $\ge 3\%$.
 * **CRITERIO FAIL:**  
@@ -199,20 +203,68 @@ Si el resultado no supera el criterio estricto de éxito o resulta inferior al b
 
 ---
 
+### Experimento 6: `EXP-IPVN7-06`
+
+* **ID:** `EXP-IPVN7-06`
+* **HIPÓTESIS:**  
+  Un protocolo de apretón de manos criptográfico en el cable basado en el patrón **Noise_IK** (Curve25519/X25519 + ChaCha20-Poly1305 + HKDF/BLAKE2s) permite establecer una sesión bidireccional autenticada en exactamente **1 RTT (2 datagramas: Handshake Init y Handshake Response)** con un tamaño total de mensajes $< 250$ bytes combinados, derivando claves simétricas de sesión efímeras ($K_{send}, K_{recv}$) que garantizan secreto perfecto hacia adelante (*PFS*) y autenticación mutua de identidad, descartando silenciosamente cualquier intento de suplantación o manipulación de bits sin filtrar oráculos de error.
+* **VARIABLE:**  
+  Validez de claves estáticas conocidas vs desconocidas; mutación de bits en clave efímera, identidad cifrada o tag AEAD; repetición de paquetes de inicio (replay DoS).
+* **BASELINE:**  
+  1. Handshake TLS 1.3 sobre TCP (2 a 3 RTTs, certificados X.509 de varios KB, consumo $> 1500$ bytes en cable).
+  2. WireGuard Handshake (1 RTT: 148 bytes Initiation, 92 bytes Response).
+* **MÉTODO:**  
+  1. Especificar los campos binarios de `PKT_HANDSHAKE_INIT` (Type, Sender_Index, Ephemeral_Key, Encrypted_Static, Encrypted_Timestamp, MAC) y `PKT_HANDSHAKE_RESP` (Type, Sender_Index, Receiver_Index, Ephemeral_Key, Empty_Encrypted, MAC).
+  2. Implementar en `scripts/ipvn7/handshake.py` el autómata de estados de apretón de manos usando `cryptography.hazmat.primitives.asymmetric.x25519` y `HKDF`.
+  3. Ejecutar el handshake bidireccional sobre sockets UDP reales de loopback y medir la derivación simétrica de claves.
+  4. Inyectar 500 datagramas de handshake adversariales (claves efímeras corruptas, tags Poly1305 alterados, identidades de clave no autorizadas).
+  5. Enviar tráfico de datos `PKT_DATA` inmediatamente después del handshake utilizando las claves efímeras derivadas.
+* **MÉTRICA:**  
+  1. RTTs necesarios para establecer la sesión (debe ser exactamente 1.0 RTT).
+  2. Tamaño de los datagramas de handshake en el cable (bytes).
+  3. Tasa de rechazo silente de paquetes adversariales (debe ser $100.0\%$).
+  4. Demostración de Forward Secrecy (el borrado de claves efímeras impide la reconstrucción del tráfico posterior).
+* **RESULTADO ESPERADO:**  
+  Iniciación: 148 bytes; Respuesta: 92 bytes. Total wire overhead: 240 bytes. RTT = 1.0. Tasa de descarte silente: 100%. Tráfico de datos operacional con claves derivadas.
+* **RESULTADO OBSERVADO:**  
+  `DEMOSTRADO (tests/ipvn7/test_exp_06_handshake.py)`:  
+  - Datagrama `PKT_HANDSHAKE_INIT`: **116 bytes** (vs >1500B en TLS 1.3).
+  - Datagrama `PKT_HANDSHAKE_RESP`: **60 bytes**.
+  - Total overhead en el cable: **176 bytes combinados** (inferior al límite de 250B).
+  - Latencia de Handshake: Exactamente **1.0 RTT** (2 datagramas).
+  - Simetría cruzada de claves de transporte simétricas: Verificada ($K_{send}, K_{recv}$ independientes de 32 bytes).
+  - Continuidad operativa: Tráfico de datos bidireccional `PKT_DATA` transmitido y descifrado de inmediato con las claves derivadas.
+  - Resistencia a ataques de identidad: Conexión de nodo no autorizado (Mallory) descartada silenciosamente (0 oráculos).
+  - Campaña adversarial de inyección: **500/500 Init corruptos** y **500/500 Resp corruptos** descartados al 100.0%.
+  - Secreto perfecto hacia adelante (PFS): Demostrado mediante la purga automática de la clave efímera privada (`ephemeral_priv is None`).
+  - **Hallazgo Crítico:** La vinculación criptográfica explícita del prefijo de cabecera (`header_prefix`) dentro del Hash `h` de Noise fue imprescindible para erradicar la aceptación de mutaciones de bits en campos de cabecera no protegidos previamente.
+  - Dictamen: **DEMOSTRADO (PASS)**.
+* **CRITERIO PASS:**  
+  Handshake completado en 1 RTT; paquetes $\le 160$ bytes individuales; 100% de datagramas adversariales descartados de forma silente; sesión operativa inmediata para contenedores `PKT_DATA`.
+* **CRITERIO FAIL:**  
+  Se requiere $> 1$ RTT; datagramas superan 200 bytes; se aceptan claves no autorizadas o el receptor emite excepciones no controladas / oráculos de error.
+* **LIMITACIONES:**  
+  El patrón Noise_IK asume que el Iniciador conoce la clave pública estática del Respondedor de antemano. Para escenarios de pares totalmente desconocidos, se requerirá un patrón posterior como Noise_XX (1.5 RTT).
+
+---
+
 ## 3. Estado de la Batería Experimental
 
 ```text
 ============================================================
-PLAN EXPERIMENTAL IPVN7-0
+PLAN EXPERIMENTAL IPVN7 — ESTADO VIGENTE
 ============================================================
-TOTAL EXPERIMENTOS DEFINIDOS : 5
-ESTADO ACTUAL                : EJECUCIÓN Y VALIDACIÓN COMPLETA
-EXPERIMENTOS EJECUTADOS      : 5 / 5
-RESULTADOS VALIDADOS (PASS)  : 5 / 5 (100%)
-CRITERIO GENERAL             : REFUTABILIDAD ESTRICTA Y MEDICIÓN REAL
+TOTAL EXPERIMENTOS DEFINIDOS : 6
+EXPERIMENTOS EJECUTADOS      : 6 / 6
+DEMOSTRADO                   : 3 / 6 (EXP-01, EXP-02, EXP-06)
+PARCIALMENTE DEMOSTRADO      : 2 / 6 (EXP-03, EXP-05)
+INFERENCIA / MODELO TEÓRICO  : 1 / 6 (EXP-04)
+REFUTADO                     : 0 / 6
+CRITERIO GENERAL             : REFUTABILIDAD ESTRICTA Y CERO AUTOENGAÑO
 ============================================================
 ```
 
 > [!CAUTION]
 > **COMPROMISO DE NO FALSEAMIENTO:**  
 > Ninguno de los resultados esperados se registrará como hecho hasta que se ejecute la suite de prueba formal y se capturen las trazas observables reproducibles.
+

@@ -55,21 +55,78 @@ Todo datagrama IPVN7 que viaja sobre UDP contiene una cabecera de Contenedor en 
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
 
-### Campos del Contenedor:
+### Campos del Contenedor de Datos (`PKT_DATA` - 16 bytes de cabecera):
 1. **`Magic` (uint8, 1 byte):** Constante identificadora del protocolo. En v0 se fija en `0x77` (ascii 'w' / 'IPVN7 wire').
 2. **`Type / Flags` (uint8, 1 byte):**
-   - `0x01`: `DATA` (Datagrama con Objetos cifrados).
-   - `0x02`: `HANDSHAKE_INIT` (Apertura de sesión Noise_IK / Noise_XX).
-   - `0x03`: `HANDSHAKE_RESP` (Respuesta de sesión Noise).
-   - `0x04`: `PATH_CHALLENGE` (Sonda de verificación de nuevo camino).
-   - `0x05`: `PATH_RESPONSE` (Respuesta a sonda de camino).
-3. **`Reserved` (uint16, 2 bytes):** Reservado para alineación de 32 bits y extensiones futuras (debe emitirse en `0x0000`; receptor debe ignorar en v0).
+   - `0x01`: `PKT_HANDSHAKE_INIT` (Apertura de sesión 1-RTT Noise_IK).
+   - `0x02`: `PKT_HANDSHAKE_RESP` (Respuesta de sesión Noise_IK).
+   - `0x03`: `PKT_COOKIE` (Reto de mitigación DoS / Cookie).
+   - `0x04`: `PKT_DATA` (Datagrama de transporte con Objetos cifrados).
+   - `0x05`: `PKT_PATH_CHALLENGE` (Sonda de verificación de nuevo camino).
+   - `0x06`: `PKT_PATH_RESPONSE` (Respuesta a sonda de camino).
+3. **`Reserved` (uint16, 2 bytes):** Reservado para alineación de 32 bits y extensiones futuras (debe emitirse en `0x0000`; receptor debe descartar silente si no es cero).
 4. **`Session Receiver Index` (uint32 Little-Endian, 4 bytes):** Índice o identificador local de la sesión en el nodo receptor. Permite resolver la clave de sesión y el estado de descifrado en $O(1)$ sin exponer la clave pública de los participantes.
 5. **`Sequence Counter` (uint64 Little-Endian, 8 bytes):** Contador monótono de 64 bits por sesión. Se utiliza como nonce para el cifrador AEAD y para la ventana deslizante anti-replay.
 6. **`Encrypted Payload` (Longitud variable):** Carga útil cifrada mediante ChaCha20-Poly1305.
 7. **`AEAD Auth Tag` (16 bytes):** Tag de autenticación e integridad Poly1305 calculado sobre los 16 bytes de cabecera de contenedor (como datos asociados adicionales / *AAD*) y el texto cifrado.
 
 > **Sobrecarga fija de Contenedor:** $16 \text{ bytes de cabecera} + 16 \text{ bytes de tag} = \mathbf{32\text{ bytes}}$.
+
+---
+
+### Formato Binario del Datagrama de Handshake Inicial (`PKT_HANDSHAKE_INIT` - 116 bytes fijos)
+
+```text
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Magic (0x77) | Type (0x01)   |       Reserved (0x0000)       |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                  Sender Index (32 bits Little-Endian)         |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++               Ephemeral Public Key (256 bits / 32 bytes)      +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++       Encrypted Static Public Key (384 bits / 48 bytes)       +
+|               (32 bytes payload + 16 bytes Poly1305 Tag)      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++          Encrypted Timestamp (224 bits / 28 bytes)            +
+|               (12 bytes payload + 16 bytes Poly1305 Tag)      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
+*Total en el cable:* $1 + 1 + 2 + 4 + 32 + 48 + 28 = \mathbf{116\text{ bytes}}$.  
+*Autenticación estricta:* Los 8 bytes iniciales (`Magic`, `Type`, `Reserved`, `Sender_Index`) están criptográficamente vinculados en el estado de hash $h$ de Noise antes de autenticar la identidad estática y el timestamp.
+
+---
+
+### Formato Binario del Datagrama de Respuesta (`PKT_HANDSHAKE_RESP` - 60 bytes fijos)
+
+```text
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Magic (0x77) | Type (0x02)   |       Reserved (0x0000)       |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                  Sender Index (32 bits Little-Endian)         |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                  Receiver Index (32 bits Little-Endian)       |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++            Responder Ephemeral Key (256 bits / 32 bytes)      +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++          Encrypted Empty Authenticator (16 bytes Tag)         +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
+*Total en el cable:* $1 + 1 + 2 + 4 + 4 + 32 + 16 = \mathbf{60\text{ bytes}}$.  
+*Autenticación estricta:* Los 12 bytes iniciales (`Magic`, `Type`, `Reserved`, `Sender_Index`, `Receiver_Index`) están vinculados en el hash $h$. Permite al Iniciador verificar que la respuesta corresponde a su sesión sin oráculos de error.
 
 ---
 

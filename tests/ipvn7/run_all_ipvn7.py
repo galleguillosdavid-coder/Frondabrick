@@ -10,6 +10,7 @@ EXPERIMENTS = [
     ("EXP-IPVN7-03", "Connection Migration / Roaming", "tests/ipvn7/test_exp_03_migration.py"),
     ("EXP-IPVN7-04", "Silent Discovery Quiescence", "tests/ipvn7/test_exp_04_discovery.py"),
     ("EXP-IPVN7-05", "Object Fragmentation & Interleaving", "tests/ipvn7/test_exp_05_fragmentation.py"),
+    ("EXP-IPVN7-06", "Noise_IK Handshake & PFS", "tests/ipvn7/test_exp_06_handshake.py"),
 ]
 
 def main():
@@ -46,11 +47,12 @@ def main():
     print(f"Total Suites : {len(results)} | Superadas: {sum(1 for r in results if r[2] == 'PASS')} | Tiempo Total: {total_time:.2f}s")
     print("=" * 80)
 
+    passed_count = sum(1 for r in results if r[2] == 'PASS')
     if all_pass:
-        print("\nDICTAMEN FINAL: 5/5 EXPERIMENTOS DEMOSTRADOS (PASS)\n")
+        print(f"\nDICTAMEN FINAL: {passed_count}/{len(results)} SUITES EXPERIMENTALES SUPERADAS (PASS)\n")
         return 0
     else:
-        print("\nDICTAMEN FINAL: AL MENOS UN EXPERIMENTO FALLÓ\n")
+        print(f"\nDICTAMEN FINAL: {len(results) - passed_count}/{len(results)} SUITES FALLARON\n")
         return 1
 
 if __name__ == "__main__":
