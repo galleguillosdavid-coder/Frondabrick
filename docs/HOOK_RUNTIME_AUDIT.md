@@ -127,8 +127,40 @@ Se sometió el arnés a una prueba de integración directa en vivo ejecutando lo
    - Los falsos positivos operacionales (`echo`, `git grep`) fueron neutralizados y permiten la inspección limpia de código.
    - La bitácora `evidence/security/audit.jsonl` registra de manera fiel e individualizada cada paso de evaluación.
 
-2. **Frontera de Seguridad del Runtime:**
+2. **Frontera de Seguridad del Runtime Observada:**
    - **`DENY -> Proceso Ejecutado`** y **`ASK -> Proceso Ejecutado sin Interrupción`**.
-   - El runtime de Antigravity IDE invoca el hook `PreToolUse`, pero no interrumpe el ciclo de ejecución de la herramienta ante un veredicto de `deny` o `ask`.
-   - **Arquitectura definitiva y honesta:** F-Shield debe mantenerse formalmente catalogado como **Policy & Audit Layer (Detector y Bitácora Normativa)** y bajo ninguna circunstancia debe ser presentado como un sandbox o mecanismo coercitivo de bloqueo de terminal.
+   - En la versión y entorno de Antigravity examinados, el flujo observado de `run_command` continuó despachándose después de respuestas `deny`, `exit != 0` y `overwrite`.
+   - **Arquitectura definitiva y honesta:** F-Shield debe mantenerse formalmente catalogado como **Policy & Audit Layer (Detector y Bitácora Normativa)** y no como un sandbox o mecanismo coercitivo de bloqueo de terminal.
+
+---
+
+## 5. Fase 20 — Búsqueda de Autoridad Nativa e Inspección Forense
+
+### 1. Inspección del Árbol de Procesos y Despachador
+Mediante trazabilidad en vivo de ancestros en Windows, se determinó la cadena real:
+```text
+explorer.exe
+  └── Antigravity IDE.exe
+        └── language_server_windows_x64.exe (Jetski Cortex backend en Go)
+              └── powershell.exe -Command "<CommandLine>"
+                    └── [subproceso del comando]
+```
+- Contexto de ejecución: Token estándar de usuario (`Frondabrick`), nivel de integridad medio (*Medium Integrity Level*), sin restricciones de AppContainer ni Job Objects.
+- Ejecutor: `language_server_windows_x64.exe` entrega la cadena de comando a `powershell.exe`.
+
+### 2. Estado de Sandboxing en la Instalación
+- En la instalación de Antigravity para Windows examinada, no se encontró ni se observó un mecanismo nativo de sandbox de proceso equivalente al `sandbox-wrapper.sh` de macOS (basado en Seatbelt `sandbox-exec`).
+- Las pruebas realizadas no demostraron enforcement coercitivo del hook sobre `run_command`.
+- **Distinción esencial:** El protocolo de hooks (`hooks_pb/hooks.proto`) define formalmente campos de enforcement (`decision`, `overwrite`), pero en la versión concreta del host instalada no se observó que aplicara dichos veredictos sobre el ciclo de vida del proceso hijo.
+
+---
+
+## 6. Fase 21 — Planteamiento de Enforcement Externo al Runtime
+
+**Objetivo:** Determinar si es posible interponer una frontera de ejecución externa a Antigravity (Execution Broker / Restricción a nivel de SO) que garantice la autonomía de desarrollo en el workspace mientras impide físicamente operaciones destructivas.
+
+**Regla de Oro:**
+> *"No enforcement without physical sentinel proof."*
+> Ningún mecanismo será considerado enforcement hasta que un centinela físico en disco demuestre que la operación destructiva no puede producirse.
+
 
