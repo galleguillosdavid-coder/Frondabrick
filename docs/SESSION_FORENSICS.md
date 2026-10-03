@@ -118,3 +118,41 @@ Para preservar la honestidad científica y evitar extrapolaciones no respaldadas
 - **Hashes Criptográficos de Archivos Protegidos Base:**
   - `chat gpt`: `5e0a9277375cea4c3b86c34a0ef944fd7adc88b2` (Intacto)
   - `gen.md`: `342a562cd3e1495f798871a527918cfb5044af55` (Intacto)
+
+---
+
+## 6. Cierre Formal del Bloque F17–F26 (F26.6)
+
+### Axiomas Materialmente Demostrados y Consolidados:
+1. **F-Shield ≠ Mecanismo de coerción del SO:** F-Shield opera como Policy & Audit Layer; el veredicto `deny` es normativo y no bloquea coercitivamente procesos de terminal en el runtime host.
+2. **NTFS ACL = Frontera física probada:** Denegación física de eliminación verificada empíricamente para la identidad y contexto de ejecución ensayados (`Frondabrick`).
+3. **SHA-256 = Detección de modificación:** Función hash criptográfica para verificación de integridad de representación (`SEAL_VALID` vs `SEAL_TAMPERED`); no proporciona inmutabilidad universal física ni autenticidad criptográfica.
+4. **Git Remoto = Continuidad histórica externa:** Copia distribuida de comparación y resiliencia; no constituye una raíz criptográfica de confianza (PKI/HSM).
+5. **Regla Epistémica del Reconstructor:** `Falta de evidencia registrada → UNKNOWN` (sin conjeturas ni inferencias fabricadas).
+
+### Naturaleza de los Cambios de Código en el Cierre:
+> [!IMPORTANT]
+> **Delimitación de Cambios:** No se introdujeron nuevas capacidades funcionales de producto ni nuevos mecanismos de seguridad. Los cambios de código realizados estuvieron restringidos estrictamente a terminología, verificación/validación y soporte de auditoría, según el diff del commit `b1739b1`.
+
+### Métricas Consolidadas de Cierre F26.6:
+| Métrica | Valor |
+| :--- | :---: |
+| **CLAIMS AUDITADOS** | 20 |
+| **CLAIMS CORRECTOS (CONSERVAR)** | 6 |
+| **CLAIMS ELIMINADOS COMPLETAMENTE** | **0** |
+| **CLAIMS SOBREAFIRMADOS CORREGIDOS/DELIMITADOS** | **14** |
+| **CONTRADICCIONES DETECTADAS** | 4 |
+| **CONTRADICCIONES RESUELTAS** | 4 |
+| **CONTRADICCIONES RESIDUALES** | **0** |
+| **TESTS AUDITADOS** | 20 |
+| **REDUNDANCIAS DETECTADAS** | **0** |
+| **DEPENDENCIAS OCULTAS** | **0** |
+| **TESTS MODIFICADOS (Alineación de Texto/Banner)** | 3 |
+| **DOCUMENTOS AUDITADOS** | 16 |
+| **FUNCIONALIDAD NUEVA** | **0** |
+| **MASTER HARNESS** | **20/20 PASS** |
+| **DOCTOR** | **10/10 PASS** |
+| **VAULT ENFORCEMENT** | **PASS** |
+| **CANARY INTEGRITY** | **PASS** |
+| **DRIFT DETECTED** | **FALSE** |
+| **CLAIMS SIN SOPORTE RESIDUALES** | **0 CONOCIDOS** |

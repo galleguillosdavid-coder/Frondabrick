@@ -20,3 +20,12 @@ Todas las modificaciones notables del proyecto Frondabrick están documentadas e
 - **Fase 13 (Red Team):** Suite de pruebas adversariales con 10 vectores de ataque (A01 a A10) neutralizados exitosamente.
 - **Fase 14 (E2E):** Prueba de integración de ciclo de vida completo en entorno temporal local (tempfile/tempdir), reproducible en el arnés Python.
 - **Documentación Completa (Sección 29):** Todos los 9 documentos normativos obligatorios redactados en `docs/`.
+
+## [1.1.0] - 2026-10-02 (Bloque F17–F26.6)
+
+### Demostrado y Consolidado
+- **F17–F20 (Auditoría Runtime e Intercepción):** Refutación empírica de que el hook `DENY` o `exit != 0` anulen el proceso hijo en el runtime Windows de Antigravity. Delimitación formal de F-Shield como Policy & Audit Layer.
+- **F21–F24 (Hardening NTFS y Autonomía):** Bóveda física protegida mediante ACL NTFS contra eliminación (`del`, `rmdir`, `Remove-Item`) bajo la identidad probada del usuario; supervivencia del canario con SHA-256 verificado y preservación de autonomía de desarrollo R/W/D en workspace mutable.
+- **F25 (Resiliencia Operacional):** Supervivencia e integridad de la bóveda ante procesos abortados abruptamente, fallos TDD, interrupciones de edición y recuperación determinista.
+- **F26 (Forense y Sellado):** Correlación de sesión (`session_id`, `PID`, Git, Vault, F-Shield), reconstructor determinista con preservación estricta de lagunas (`UNKNOWN`) y sellado criptográfico de integridad SHA-256 (`SEAL_VALID` vs `SEAL_TAMPERED`).
+- **F26.6 (Auditoría de Consistencia):** Armonización de claims, corrección de sobreafirmaciones, validación de las 20 suites sin dependencias ocultas y congelamiento de estado verificado con 0 cambios funcionales.
