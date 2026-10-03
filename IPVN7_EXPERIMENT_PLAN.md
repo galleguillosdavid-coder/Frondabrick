@@ -370,18 +370,58 @@ Si el resultado no supera el criterio estricto de éxito o resulta inferior al b
 
 ---
 
+### Experimento EXP-IPVN7-10: Mapeo de NAT, Perforación Silenciosa y Quiescencia Adaptativa (NAT Hole-Punching & Keepalive Quiescence)
+
+* **OBJETIVO:**  
+  Demostrar que dos endpoints IPVN7 situados detrás de routers NAT con filtrado de puerto (*Port-Restricted Cone NAT*) pueden establecer un canal directo P2P bidireccional en 1 RTT mediante datagramas autenticados mínimos de 40 bytes (`PKT_NAT_PUNCH`), determinar formalmente la frontera frente a NAT Simétrico (que requiere relé), y verificar que un gestor de keepalive adaptativo opera con sobrecarga cero (**0 paquetes adicionales**) durante flujos activos de datos, emitiendo únicamente pulsos mínimos periódicos durante silencios prolongados para evitar la caducidad del mapeo de estado.
+* **HIPÓTESIS:**  
+  El intercambio simétrico de sondas autenticadas `PKT_NAT_PUNCH` dirigidas a las direcciones reflexivas públicas obtenidas vía un coordinador de rendezvous ligero abre las tablas de filtrado en ambos NATs de cono restringido sin requerir relé de datos continuo, mientras que reiniciar el temporizador de inactividad con cada contenedor saliente elimina el 100% de la sobrecarga de keepalives en presencia de tráfico.
+* **MÉTODO:**  
+  1. Emulación de enrutadores NAT con estados de mapeo, expiración por temporizador (20.0s) y políticas de filtrado (Full Cone, Restricted Cone, Port-Restricted Cone, Symmetric) en `scripts/ipvn7/nat_traversal.py`.
+  2. Registro de endpoints en servidor Rendezvous para obtención de coordenadas reflexivas.
+  3. Ejecución de hole-punching entre dos routers con filtrado de puerto: Alice envía PUNCH hacia Bob (filtrado inicialmente por NAT de Bob), Bob envía PUNCH hacia Alice (atraviesa NAT de Alice).
+  4. Transmisión directa de datos bidireccionales confirmando canal P2P abierto.
+  5. Ensayo frente a NAT Simétrico comprobando que la asignación de puertos dependiente del destino impide el enlace directo sin relé asistido.
+  6. Evaluación de quiescencia: 20 segundos de tráfico de datos activo verificando que se generen 0 paquetes keepalive.
+  7. Evaluación de reposo: 16 segundos de silencio provocan la emisión de 1 pulso de 40 bytes que preserva el mapeo de NAT frente a expiración.
+  8. Ataques adversariales: inyección ciega desde IP no autorizada y 500 datagramas de punch con Poly1305 corrupto.
+* **VARIABLES:**  
+  - *Independientes*: Topología NAT (Port-Restricted Cone, Symmetric), régimen de tráfico (activo vs reposo), intervalo de keepalive (15s).
+  - *Dependientes*: Tasa de éxito de perforación (%), sobrecarga de paquetes keepalive en tráfico activo vs reposo, tasa de descarte de inyecciones no autorizadas (%).
+* **SUITE ASOCIADA:**  
+  `tests/ipvn7/test_exp_10_nat.py` (Módulo: `scripts/ipvn7/nat_traversal.py`).
+* **RESULTADO ESPERADO:**  
+  100% éxito en perforación Port-Restricted Cone; 0 paquetes keepalive en tráfico activo; 100% rechazo de inyecciones no autorizadas; falla determinista documentada en NAT Simétrico.
+* **RESULTADO MEDIDO:**  
+  - Éxito de Hole-Punching Cone-to-Cone: **100.0% (1-RTT directo bidireccional)**.
+  - Sobrecarga Keepalive en Flujo Activo: **0 paquetes (100.0% Quiescente)**.
+  - Sobrecarga Keepalive en Reposo Prolongado: **1 pulso / 15 s (40 bytes fijos)**.
+  - Supervivencia de Mapeo NAT: **Confirmada** (tráfico aceptado tras reposo).
+  - Límite Epistemológico Simétrico: **DEMOSTRADO** (NAT Simétrico asigna puertos disjuntos por destino; requiere fallback a relé).
+  - Rechazo de Sondas No Autorizadas: **100.0% filtradas por NAT**.
+  - Rechazo de Paquetes Corruptos: **500 / 500 (100.0%) descartados silenciosamente**.
+  - Dictamen: **DEMOSTRADO (PASS)**.
+* **CRITERIO PASS:**  
+  100% de éxito en establecimiento directo entre Port-Restricted Cone; 0 keepalives durante transmisión de datos; rechazo de 500/500 paquetes corruptos.
+* **CRITERIO FAIL:**  
+  Fallo al atravesar NAT de cono restringido, generación de keepalives redundantes durante tráfico de datos, o aceptación de sondas externas no autenticadas.
+* **LIMITACIONES:**  
+  El ensayo utiliza emuladores de espacio de usuario con modelos de estado conformes a RFC 3489 / RFC 4787; no sustituye mediciones en redes celulares con Carrier-Grade NAT (CGNAT) con mapeos no deterministas de puerto.
+
+---
+
 ## 3. Estado de la Batería Experimental
 
 ```text
 ============================================================
 PLAN EXPERIMENTAL IPVN7 — ESTADO VIGENTE
 ============================================================
-TOTAL EXPERIMENTOS DEFINIDOS : 9
-EXPERIMENTOS EJECUTADOS      : 9 / 9
-DEMOSTRADO                   : 6 / 9 (EXP-01, EXP-02, EXP-06, EXP-07, EXP-08, EXP-09)
-PARCIALMENTE DEMOSTRADO      : 2 / 9 (EXP-03, EXP-05)
-INFERENCIA / MODELO TEÓRICO  : 1 / 9 (EXP-04)
-REFUTADO                     : 0 / 9
+TOTAL EXPERIMENTOS DEFINIDOS : 10
+EXPERIMENTOS EJECUTADOS      : 10 / 10
+DEMOSTRADO                   : 7 / 10 (EXP-01, EXP-02, EXP-06, EXP-07, EXP-08, EXP-09, EXP-10)
+PARCIALMENTE DEMOSTRADO      : 2 / 10 (EXP-03, EXP-05)
+INFERENCIA / MODELO TEÓRICO  : 1 / 10 (EXP-04)
+REFUTADO                     : 0 / 10
 CRITERIO GENERAL             : REFUTABILIDAD ESTRICTA Y CERO AUTOENGAÑO
 ============================================================
 ```

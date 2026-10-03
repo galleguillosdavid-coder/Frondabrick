@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "session_id": "8c87a808-8669-4782-99e8-389fea62859c",
+  "intent": "EXP-26.5 Controlled Integrity Seal Verification",
+  "started_at": "2026-10-03T10:53:05.562702+00:00",
+  "closed_at": "2026-10-03T10:53:05.568753+00:00",
+  "process": {
+    "pid": 9760,
+    "parent_pid": 7768
+  },
+  "git": {
+    "commit": "543d2e5a79ff868fd8d2fc34053bb1f108ccea78",
+    "branch": "main",
+    "dirty": true
+  },
+  "vault": {
+    "protection_status": "PASS",
+    "drift_detected": false,
+    "acl_present": "PASS",
+    "delete_denied": "PASS",
+    "canary_sha256": "0469606ef2fd9aca3debabc5931d56a8cb480fed3b826d22a99d6cc6591891f2"
+  },
+  "events_count": 2,
+  "events": [
+    {
+      "event_id": "evt_9bd1540b",
+      "session_id": "8c87a808-8669-4782-99e8-389fea62859c",
+      "event_type": "session_start",
+      "timestamp": "2026-10-03T10:53:05.562702+00:00",
+      "pid": 9760,
+      "parent_pid": 7768,
+      "data": {
+        "intent": "EXP-26.5 Controlled Integrity Seal Verification"
+      }
+    },
+    {
+      "event_id": "evt_d33b3b30",
+      "session_id": "8c87a808-8669-4782-99e8-389fea62859c",
+      "event_type": "action_executed",
+      "timestamp": "2026-10-03T10:53:05.567663+00:00",
+      "pid": 9760,
+      "data": {
+        "command": "python frondabrick.py doctor",
+        "exit_code": 0,
+        "command_hash": "7af79b8535350aafbab2b101d2cb4a6b536f644b36e53f604444caf80496a9ef"
+      }
+    }
+  ],
+  "f_shield_events": [
+    {
+      "session_id": "8c87a808-8669-4782-99e8-389fea62859c",
+      "stepIdx": 1964,
+      "tool": "view_file",
+      "decision": "allow",
+      "level": 1,
+      "reason": "Operación verificada por F-Shield."
+    }
+  ],
+  "evidence_records": [],
+  "integrity_seal": {
+    "algorithm": "SHA-256",
+    "type": "INTEGRITY_SEAL",
+    "manifest_sha256": "abe01544ac4a065848b300897828a51738894ed27f30be5926771f20eb90cdc5",
+    "events_sha256": "ad66fdf510ba804bdd5f17046c20752789c80541b210ed16b97d723c02545201",
+    "sealed_at": "2026-10-03T10:53:05.568753+00:00"
+  },
+  "final_status": "PASS"
+}

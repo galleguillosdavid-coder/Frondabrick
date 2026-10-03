@@ -164,6 +164,38 @@ Tanto el reto como la respuesta comparten una estructura idéntica de 40 bytes, 
 
 ---
 
+### Formato Binario de Perforación de NAT y Keepalive (`PKT_NAT_PUNCH` y `PKT_NAT_KEEPALIVE` - 40 bytes fijos)
+
+Tanto la sonda de apertura (*UDP Hole-Punching*, `Type = 0x07`) como el pulso de preservación de estado (*Adaptive Keepalive*, `Type = 0x08`) utilizan una trama compacta autenticada de 40 bytes:
+
+```text
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Magic (0x77) | Type (0x07/08)|       Reserved (0x0000)       |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                 Receiver Index (32 bits Little-Endian)        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++                   Nonce / Counter (64 bits)                   +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++               AEAD Auth Tag (128 bits / 16 bytes)             +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                       Padding (8 bytes 0x00)                  |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
+*Total en el cable:* $16\text{ (cabecera)} + 16\text{ (tag Poly1305)} + 8\text{ (padding)} = \mathbf{40\text{ bytes}}$.  
+*Propiedades Operativas:*
+1. **Apertura Simétrica:** El envío mutuo de `PKT_NAT_PUNCH` crea y asocia las entradas de reenvío en NATs cónicos (*Port-Restricted Cone*) en 1 RTT sin requerir relay de datos de terceros.
+2. **Quiescencia Total:** En presencia de flujo de datos activo, el temporizador de keepalive se reinicia automáticamente con cada contenedor transmitido, generando **0 paquetes adicionales** (sobrecarga neta nula).
+3. **Preservación frente a Expiración:** Solo cuando la sesión permanece completamente inactiva por un lapso superior al umbral configurado (ej. 15–25 s), se despacha un único pulso `PKT_NAT_KEEPALIVE` de 40B para evitar el cierre de la tabla de traducción en el router perimetral.
+
+---
+
 ## 3. Formato del Objeto (`Object`)
 
 Los objetos viajan **dentro** de la carga cifrada del contenedor. Un solo contenedor puede alojar uno o múltiples objetos consecutivos si el tamaño lo permite.

@@ -14,6 +14,7 @@ EXPERIMENTS = [
     ("EXP-IPVN7-07", "Path Validation & Anti-Reflection", "tests/ipvn7/test_exp_07_path_validation.py"),
     ("EXP-IPVN7-08", "Egress Priority & Anti-HoL", "tests/ipvn7/test_exp_08_egress_scheduling.py"),
     ("EXP-IPVN7-09", "In-Flight Rekeying & Grace Window", "tests/ipvn7/test_exp_09_rekeying.py"),
+    ("EXP-IPVN7-10", "NAT Hole-Punching & Quiescence", "tests/ipvn7/test_exp_10_nat.py"),
 ]
 
 def main():
