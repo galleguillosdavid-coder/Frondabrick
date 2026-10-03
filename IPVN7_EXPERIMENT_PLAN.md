@@ -351,3 +351,18 @@ CRITERIO GENERAL             : REFUTABILIDAD ESTRICTA Y CERO AUTOENGAÑO
 > **COMPROMISO DE NO FALSEAMIENTO:**  
 > Ninguno de los resultados esperados se registrará como hecho hasta que se ejecute la suite de prueba formal y se capturen las trazas observables reproducibles.
 
+---
+
+## 4. Regla Operativa de Progresión Autónoma (Temporización `/schedule`)
+
+En cumplimiento de la directiva de autonomía total controlada:
+
+> **MANDATO DE CADENCIA:**  
+> Al finalizar cada ciclo autónomo de investigación/experimento (OBSERVAR $\to$ INVESTIGAR $\to$ HIPÓTESIS $\to$ DISEÑAR $\to$ IMPLEMENTAR $\to$ ATACAR $\to$ MEDIR $\to$ REPRODUCIR $\to$ AUDITAR $\to$ DOCUMENTAR), se programa de forma obligatoria e inmediata un temporizador `/schedule` para ejecución en **10 minutos (600 segundos)** con el siguiente paso autónomo especificado.
+
+Esta regla asegura:
+1. Cadencia continua y no asistida del proyecto mientras existan brechas técnicas justificadas.
+2. Ventana de 10 minutos para consolidación de evidencias, benchmarks de fondo y verificación de no regresión.
+3. Despacho automático de la siguiente fase técnica (`EXP-IPVN7-09`, `EXP-IPVN7-10`, etc.) sin esperar instrucciones humanas.
+
+

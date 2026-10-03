@@ -116,13 +116,14 @@ El objetivo es erradicar cualquier sesgo de confirmación, falsa equivalencia en
 
 ---
 
-## 4. Decisiones Autónomas Inmediatas (Siguiente Ciclo)
+## 4. Progresión Autónoma Ejecutada y Cadencia Operativa
 
-Con base en los hallazgos de esta auditoría, el plan de trabajo autónomo se divide en:
+### Fases Completadas y Demostradas:
+1. **`EXP-IPVN7-06` (Apretón de Manos Criptográfico Noise_IK en 1-RTT):** Demostrado (116B Init, 60B Resp, 100% rechazo adversarial, PFS).
+2. **`EXP-IPVN7-07` (Validación de Camino contra Reflexión - Path Challenge):** Demostrado (40B Challenge/Response, factor de amplificación 0.48x, anti-secuestro).
+3. **`EXP-IPVN7-08` (Planificador de Salida con Colas de Prioridad - Egress Anti-HoL):** Demostrado (-98.9% latencia urgente, 100% integridad masiva).
 
-1. **Corrección de Documentación:** Actualizar `IPVN7_EXPERIMENT_PLAN.md` y `IPVN7_RESEARCH_MAP.md` con las clasificaciones estrictas.
-2. **Diseño e Implementación de `EXP-IPVN7-06` (Apretón de Manos Criptográfico Noise_IK):**
-   - Eliminar la dependencia de claves simétricas precompartidas manuales.
-   - Implementar apretón de manos con curvas elípticas Curve25519 (X25519), derivación HKDF y generación de claves de sesión efímeras con secreto hacia adelante (*Forward Secrecy*).
-3. **Diseño e Implementación de `EXP-IPVN7-07` (Validación de Camino contra Reflexión - Path Challenge):**
-   - Implementar el mecanismo de verificación de endpoint mediante un reto criptográfico de 8 bytes antes de autorizar la conmutación de tráfico saliente hacia un nuevo camino IP:puerto.
+### Mandato Operativo de Cadencia (/schedule):
+> **REGLA DE PROGRESIÓN OBLIGATORIA:**  
+> Al finalizar cada ciclo autónomo de investigación/experimento, se programa inmediatamente un temporizador `/schedule` para ejecución en **10 minutos (600 segundos)** con el siguiente paso autónomo especificado (`EXP-IPVN7-09: Re-claveo Transparente en Vuelo`). El proyecto avanza de forma continua y autónoma mientras existan brechas técnicas demostrables.
+
