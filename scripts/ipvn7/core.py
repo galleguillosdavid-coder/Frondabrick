@@ -89,6 +89,12 @@ class AntiReplayWindow:
         return True
 
 
+FLAG_FRAG = 0x10
+FLAG_LAST_FRAG = 0x08
+FRAG_HEADER_FORMAT = "<HH"
+FRAG_HEADER_SIZE = struct.calcsize(FRAG_HEADER_FORMAT)  # 4 bytes (frag_index, total_frags)
+
+
 class IPVN7Object:
     """
     Representa una unidad lógica de información en IPVN7 (Mensaje, Telemetría, Comando, etc.).
@@ -102,6 +108,19 @@ class IPVN7Object:
         self.flags = (flags & 0x1F) | (self.priority << 5)
         self.payload = payload
         self.object_id = object_id
+
+    def is_fragment(self) -> bool:
+        return bool(self.flags & FLAG_FRAG)
+
+    def get_fragment_info(self) -> Tuple[int, int, bytes]:
+        """Si es fragmento, extrae (frag_index, total_frags, data_chunk)."""
+        if not self.is_fragment():
+            return (0, 1, self.payload)
+        if len(self.payload) < FRAG_HEADER_SIZE:
+            raise ValueError("Payload de fragmento insuficiente para cabecera de fragmentación")
+        frag_idx, total_frags = struct.unpack(FRAG_HEADER_FORMAT, self.payload[:FRAG_HEADER_SIZE])
+        data_chunk = self.payload[FRAG_HEADER_SIZE:]
+        return (frag_idx, total_frags, data_chunk)
 
     def pack(self) -> bytes:
         header = struct.pack(OBJECT_HEADER_FORMAT, self.object_type, self.flags, len(self.payload), self.object_id)
@@ -121,6 +140,35 @@ class IPVN7Object:
         remaining = data[total_len:]
         obj = cls(object_type=obj_type, payload=payload, object_id=obj_id, priority=priority, flags=raw_flags)
         return obj, remaining
+
+    @classmethod
+    def create_fragments(cls, object_type: int, payload: bytes, max_payload_chunk: int, object_id: int, priority: int = 4) -> List["IPVN7Object"]:
+        """
+        Divide un payload grande en múltiples fragmentos de Objeto respetando el límite max_payload_chunk.
+        """
+        if max_payload_chunk <= FRAG_HEADER_SIZE:
+            raise ValueError("max_payload_chunk debe ser mayor a 4 bytes")
+
+        chunk_data_size = max_payload_chunk - FRAG_HEADER_SIZE
+        chunks = [payload[i:i + chunk_data_size] for i in range(0, len(payload), chunk_data_size)]
+        total_frags = len(chunks)
+        fragments = []
+
+        for idx, chunk in enumerate(chunks):
+            frag_header = struct.pack(FRAG_HEADER_FORMAT, idx, total_frags)
+            flags = FLAG_FRAG
+            if idx == total_frags - 1:
+                flags |= FLAG_LAST_FRAG
+            frag_obj = cls(
+                object_type=object_type,
+                payload=frag_header + chunk,
+                object_id=object_id,
+                priority=priority,
+                flags=flags
+            )
+            fragments.append(frag_obj)
+
+        return fragments
 
 
 class IPVN7Container:
@@ -218,3 +266,62 @@ class IPVN7Container:
 
         container = cls(receiver_index=rx_index, sequence_number=seq_num, objects=objects, packet_type=pkt_type)
         return container
+
+
+class IPVN7Reassembler:
+    """
+    Gestor de reensamblaje de Objetos fragmentados en el receptor.
+    Rastrea fragmentos por object_id y ensambla el payload completo cuando todos han llegado.
+    Soporta llegada desordenada e identifica fragmentos faltantes para retransmisión selectiva.
+    """
+    def __init__(self):
+        # {object_id: {"total": int, "object_type": int, "priority": int, "fragments": {frag_idx: bytes}}}
+        self.buffers = {}
+
+    def add_fragment(self, obj: IPVN7Object) -> Optional[bytes]:
+        """
+        Procesa un objeto entrante.
+        - Si no es fragmento, retorna su payload de inmediato.
+        - Si es fragmento, lo almacena en su buffer correspondiente.
+        - Si todos los fragmentos están presentes, retorna el payload completo y limpia el buffer.
+        - Si aún faltan fragmentos, retorna None.
+        """
+        if not obj.is_fragment():
+            return obj.payload
+
+        frag_idx, total_frags, chunk = obj.get_fragment_info()
+        obj_id = obj.object_id
+
+        if obj_id not in self.buffers:
+            self.buffers[obj_id] = {
+                "total": total_frags,
+                "object_type": obj.object_type,
+                "priority": obj.priority,
+                "fragments": {}
+            }
+
+        buf = self.buffers[obj_id]
+        buf["fragments"][frag_idx] = chunk
+
+        # Verificar si todos los fragmentos han sido recibidos
+        if len(buf["fragments"]) == buf["total"]:
+            # Reensamblar en orden estricto de índice
+            full_payload = b"".join(buf["fragments"][i] for i in range(buf["total"]))
+            del self.buffers[obj_id]
+            return full_payload
+
+        return None
+
+    def is_complete(self, object_id: int) -> bool:
+        if object_id not in self.buffers:
+            return False
+        buf = self.buffers[object_id]
+        return len(buf["fragments"]) == buf["total"]
+
+    def get_missing_fragments(self, object_id: int) -> List[int]:
+        """Retorna la lista de índices de fragmentos pendientes para retransmisión selectiva."""
+        if object_id not in self.buffers:
+            return []
+        buf = self.buffers[object_id]
+        return [i for i in range(buf["total"]) if i not in buf["fragments"]]
+

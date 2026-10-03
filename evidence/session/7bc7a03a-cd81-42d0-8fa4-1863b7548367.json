@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "session_id": "7bc7a03a-cd81-42d0-8fa4-1863b7548367",
+  "intent": "EXP-26.4 Legitimate Development Forensics Verification",
+  "started_at": "2026-10-03T02:41:27.076969+00:00",
+  "closed_at": "2026-10-03T02:41:27.336300+00:00",
+  "process": {
+    "pid": 21020,
+    "parent_pid": 4792
+  },
+  "git": {
+    "commit": "5b0ff647feb716e13531aa187557672052181277",
+    "branch": "main",
+    "dirty": true
+  },
+  "vault": {
+    "protection_status": "PASS",
+    "drift_detected": false,
+    "acl_present": "PASS",
+    "delete_denied": "PASS",
+    "canary_sha256": "0469606ef2fd9aca3debabc5931d56a8cb480fed3b826d22a99d6cc6591891f2"
+  },
+  "events_count": 3,
+  "events": [
+    {
+      "event_id": "evt_77f8acb1",
+      "session_id": "7bc7a03a-cd81-42d0-8fa4-1863b7548367",
+      "event_type": "session_start",
+      "timestamp": "2026-10-03T02:41:27.076969+00:00",
+      "pid": 21020,
+      "parent_pid": 4792,
+      "data": {
+        "intent": "EXP-26.4 Legitimate Development Forensics Verification"
+      }
+    },
+    {
+      "event_id": "evt_dac61010",
+      "session_id": "7bc7a03a-cd81-42d0-8fa4-1863b7548367",
+      "event_type": "filesystem_change",
+      "timestamp": "2026-10-03T02:41:27.080463+00:00",
+      "pid": 21020,
+      "data": {
+        "files_changed": [
+          "src/probe.py"
+        ],
+        "action": "modify"
+      }
+    },
+    {
+      "event_id": "evt_d346864e",
+      "session_id": "7bc7a03a-cd81-42d0-8fa4-1863b7548367",
+      "event_type": "action_executed",
+      "timestamp": "2026-10-03T02:41:27.331202+00:00",
+      "pid": 21020,
+      "data": {
+        "command": "python tests/core/test_resilience_probe.py",
+        "exit_code": 0,
+        "command_hash": "76ea26f400d4f53206f00e46b099ca3b76fea151335f71e81b52be7ed01154ff"
+      }
+    }
+  ],
+  "f_shield_events": [
+    {
+      "session_id": "7bc7a03a-cd81-42d0-8fa4-1863b7548367",
+      "stepIdx": 99991,
+      "tool": "run_command",
+      "decision": "allow",
+      "level": 1,
+      "reason": "Operación verificada por F-Shield."
+    }
+  ],
+  "evidence_records": [
+    {
+      "category": "tests",
+      "record": {
+        "timestamp": "2026-10-03T02:41:27.332543+00:00",
+        "session_id": "7bc7a03a-cd81-42d0-8fa4-1863b7548367",
+        "file": "1790995287_legitimate_development_run.json",
+        "title": "Legitimate Development Run",
+        "result": "PASS"
+      }
+    }
+  ],
+  "integrity_seal": {
+    "algorithm": "SHA-256",
+    "type": "INTEGRITY_SEAL",
+    "manifest_sha256": "a34284ec27e480155f403a326ac503696b3cadf03ac52919f6c619af901640e1",
+    "events_sha256": "eb8d2054c732f09509d6d1ac12ace0ce2518185f9521331e345793b00b3dccd7",
+    "sealed_at": "2026-10-03T02:41:27.336300+00:00"
+  },
+  "final_status": "PASS"
+}

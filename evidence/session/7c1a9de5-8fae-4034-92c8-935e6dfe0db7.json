@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "session_id": "7c1a9de5-8fae-4034-92c8-935e6dfe0db7",
+  "intent": "EXP-26.5 Controlled Integrity Seal Verification",
+  "started_at": "2026-10-03T02:41:27.871112+00:00",
+  "closed_at": "2026-10-03T02:41:27.877005+00:00",
+  "process": {
+    "pid": 9528,
+    "parent_pid": 4792
+  },
+  "git": {
+    "commit": "5b0ff647feb716e13531aa187557672052181277",
+    "branch": "main",
+    "dirty": true
+  },
+  "vault": {
+    "protection_status": "PASS",
+    "drift_detected": false,
+    "acl_present": "PASS",
+    "delete_denied": "PASS",
+    "canary_sha256": "0469606ef2fd9aca3debabc5931d56a8cb480fed3b826d22a99d6cc6591891f2"
+  },
+  "events_count": 2,
+  "events": [
+    {
+      "event_id": "evt_09e34baf",
+      "session_id": "7c1a9de5-8fae-4034-92c8-935e6dfe0db7",
+      "event_type": "session_start",
+      "timestamp": "2026-10-03T02:41:27.871112+00:00",
+      "pid": 9528,
+      "parent_pid": 4792,
+      "data": {
+        "intent": "EXP-26.5 Controlled Integrity Seal Verification"
+      }
+    },
+    {
+      "event_id": "evt_3f9829e6",
+      "session_id": "7c1a9de5-8fae-4034-92c8-935e6dfe0db7",
+      "event_type": "action_executed",
+      "timestamp": "2026-10-03T02:41:27.875907+00:00",
+      "pid": 9528,
+      "data": {
+        "command": "python frondabrick.py doctor",
+        "exit_code": 0,
+        "command_hash": "7af79b8535350aafbab2b101d2cb4a6b536f644b36e53f604444caf80496a9ef"
+      }
+    }
+  ],
+  "f_shield_events": [],
+  "evidence_records": [],
+  "integrity_seal": {
+    "algorithm": "SHA-256",
+    "type": "INTEGRITY_SEAL",
+    "manifest_sha256": "7743bdf5d2ff2c8024bbc39afb99c7a328a12e2769c75c2ba408ca207f077d7c",
+    "events_sha256": "eb7bcfb51b012793f603cec8473f83d681588015263ba79cab726ac1d82daab2",
+    "sealed_at": "2026-10-03T02:41:27.877005+00:00"
+  },
+  "final_status": "PASS"
+}
