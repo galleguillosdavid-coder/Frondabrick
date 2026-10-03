@@ -69,13 +69,42 @@ INTENCIÓN ──► SESSION_ID (UUID) ──► F-SHIELD (Hook) ──► PID/P
 ## 3. Delimitación Rigurosa del Sello Criptográfico
 
 > [!NOTE]
-> **Distinción Técnica:**
-> El mecanismo implementado es un **INTEGRITY SEAL** (digest SHA-256 canónico del manifiesto y los eventos de sesión).  
-> Un hash criptográfico demuestra que *"este contenido coincide exactamente con este digest"*. No constituye por sí mismo una firma digital asimétrica con clave privada ni prueba resistencia a un atacante con control total del host capaz de recalcular simultáneamente contenido y digest. La resistencia distribuida y persistencia final descansa en la sincronización del commit hacia el repositorio remoto Git.
+> **Distinción Técnica de Integridad:**
+> El mecanismo implementado es un **INTEGRITY SEAL** (digest SHA-256 canónico del manifiesto y del registro de eventos de sesión).  
+> **El sello SHA-256 detecta modificaciones respecto del estado sellado conocido.**  
+> 
+> ```text
+> SHA-256
+>   = integridad / detección de modificación
+>   ≠ autenticidad
+>   ≠ inmutabilidad universal
+>   ≠ protección contra un atacante con control total del host
+> ```
+> 
+> Un hash criptográfico demuestra matemáticamente que *"este contenido coincide con este digest"*. No constituye una firma digital asimétrica con PKI externa ni impide que un proceso con privilegios totales sobre el host reemplace simultáneamente el contenido y su digest.  
+> La persistencia remota Git proporciona una copia histórica adicional para continuidad y comparación; no constituye por sí misma una raíz criptográfica de confianza independiente del host.  
+> Por tanto, Fase 26 queda congelada formalmente como:  
+> **DETECTION + CLASSIFICATION + CORRELATION + RECONSTRUCTION + INTEGRITY DETECTION**,  
+> y no como *FORENSIC IMMUTABILITY*.
 
 ---
 
-## 4. Estado de Verificación del Arnés
+## 4. Frontera Real del Sistema (Lo que F26 NO ha demostrado)
+
+Para preservar la honestidad científica y evitar extrapolaciones no respaldadas por la evidencia experimental, se establece formalmente que el sistema **NO HA DEMOSTRADO**:
+
+1. **Inmutabilidad física universal de `evidence/`:** La carpeta de evidencia permanece mutable en el sistema de archivos local para permitir escrituras del arnés activo.
+2. **Resistencia frente a Administrador / SYSTEM:** Procesos con privilegios elevados o identidades administrativas pueden alterar archivos y ACLs.
+3. **Raíz de confianza externa:** No existe un enclave seguro de hardware (TPM/HSM) ni autoridad externa de certificación vinculada al host.
+4. **Firma digital asimétrica:** No se emplean pares de claves pública/privada para rubricar los manifiestos.
+5. **Timestamping externo (RFC 3161):** Las marcas de tiempo provienen del reloj del runtime del host, no de una autoridad de sellado de tiempo externa independiente.
+6. **Captura exhaustiva de todos los procesos del SO:** Solo se capturan los PIDs y comandos invocados a través del ciclo formal del arnés y sus subprocesos directos.
+7. **Captura exhaustiva de absolutamente todos los cambios en filesystem:** Solo se registran los eventos de filesystem estructurados y reportados por las herramientas y suites.
+8. **Reconstrucción de eventos sin evidencia registrada:** El reconstructor opera bajo el principio *Conocido ≠ Inferido*; cuando la evidencia física o documental no fue registrada, el sistema reporta estrictamente **UNKNOWN**.
+
+---
+
+## 5. Estado de Verificación del Arnés
 
 - **Master Test Harness (`tests/run_all.py`):** **20/20 SUITES APROBADAS (PASS)** en `15.59s`.
 - **Diagnóstico del Sistema (`frondabrick.py doctor`):** **10/10 PASS**.
