@@ -365,4 +365,12 @@ Esta regla asegura:
 2. Ventana de 10 minutos para consolidación de evidencias, benchmarks de fondo y verificación de no regresión.
 3. Despacho automático de la siguiente fase técnica (`EXP-IPVN7-09`, `EXP-IPVN7-10`, etc.) sin esperar instrucciones humanas.
 
+### Gestión de Bloqueos Humanos (`PENDIENTE_HUMANO`):
+Si una tarea particular requiere obligatoriamente intervención humana externa:
+1. No se detiene globalmente el proyecto IPVN7.
+2. Se registra el bloqueo en el archivo persistente [`IPVN7_HUMAN_INTERVENTIONS.md`](file:///c:/Users/Frondabrick/Desktop/dvd/EvryThing/IPVN7_HUMAN_INTERVENTIONS.md) bajo el estado `PENDIENTE_HUMANO`.
+3. Se selecciona inmediatamente la siguiente tarea técnica prioritaria autónoma ejecutable.
+4. Se programa el siguiente ciclo autónomo vía `/schedule` (+600s) y el sistema continúa su progresión.
+
+
 
