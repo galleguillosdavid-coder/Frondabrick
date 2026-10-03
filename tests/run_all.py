@@ -36,6 +36,7 @@ TEST_SUITES = [
     ("CLI", WORKSPACE_ROOT / "tests" / "cli" / "test_cli.py"),
     ("RedTeam", WORKSPACE_ROOT / "tests" / "adversarial" / "test_red_team.py"),
     ("Vault", WORKSPACE_ROOT / "tests" / "vault" / "test_vault_hardening.py"),
+    ("Resilience", WORKSPACE_ROOT / "tests" / "vault" / "test_resilience_session.py"),
     ("E2E", WORKSPACE_ROOT / "tests" / "e2e" / "test_full_lifecycle_e2e.py"),
     ("Integration", WORKSPACE_ROOT / "tests" / "integration" / "test_pipeline_integration.py"),
 ]
