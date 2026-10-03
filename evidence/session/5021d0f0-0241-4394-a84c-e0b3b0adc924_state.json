@@ -1,0 +1,10 @@
+{
+  "session_id": "5021d0f0-0241-4394-a84c-e0b3b0adc924",
+  "intent": "EXP-26.3 Controlled Blocked Destructive Deletion Forensics",
+  "started_at": "2026-10-03T02:35:09.252887+00:00",
+  "process": {
+    "pid": 19420,
+    "parent_pid": 8156
+  },
+  "metadata": {}
+}
