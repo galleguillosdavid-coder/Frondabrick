@@ -149,3 +149,36 @@
 {"stepIdx": 468, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
 {"stepIdx": 470, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
 {"stepIdx": 470, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 472, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 472, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 474, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 474, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 476, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 476, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 478, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 478, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 482, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 484, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 486, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 488, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 490, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 492, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 494, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 496, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 498, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 500, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 502, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 504, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 506, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 508, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 510, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 512, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 514, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 516, "tool": "run_command", "decision": "ask", "level": 3, "reason": "[F-Shield HIGH] Encoded PowerShell Execution: Ejecuci\u00f3n de comando PowerShell codificado u ofuscado. (Requiere confirmaci\u00f3n expl\u00edcita del usuario - Nivel 3)."}
+{"stepIdx": 518, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 520, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 522, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 524, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 526, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 528, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 530, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
