@@ -47,6 +47,9 @@ def test_a02_destructive_command():
     attacks = [
         "rm -rf / --no-preserve-root",
         "del /s /q C:\\Windows",
+        "del /q /s C:\\Windows",
+        "Remove-Item -r C:\\Windows",
+        "powershell -enc aW52b2tlLWV4cHJlc3Npb24=",
         "format e:",
         "DROP DATABASE customers;",
         "git reset --hard HEAD~10",

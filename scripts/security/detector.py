@@ -12,7 +12,7 @@ SECURITY_RULES = [
     {
         "id": "SEC-001",
         "name": "Recursive Forced Deletion",
-        "pattern": r"\b(rm\s+-[rRfF]{1,3}\b|del\s+/[sS]\b|rmdir\s+/[sS]\b|Remove-Item\s+.*-Recurse)",
+        "pattern": r"(\brm\s+-[rRfF]{1,3}\b|\bdel\b(?=.*\/[sS])|\b(?:rmdir|rd)\b(?=.*\/[sS])|\b(?:Remove-Item|ri)\b(?=.*-(?:r\b|rec\w*)))",
         "risk": "CRITICAL",
         "reason": "Intento de eliminación recursiva forzada en el sistema de archivos.",
         "action": "BLOCK",
@@ -85,12 +85,29 @@ SECURITY_RULES = [
         "level": 3,
         "exception": r"\.env\.example$",
         "test": ".env"
+    },
+    {
+        "id": "SEC-008",
+        "name": "Encoded PowerShell Execution",
+        "pattern": r"\b(?:powershell|pwsh)\b(?=.*-(?:e|enc|encodedcommand)\b)",
+        "risk": "HIGH",
+        "reason": "Ejecución de comando PowerShell codificado u ofuscado.",
+        "action": "ASK",
+        "level": 3,
+        "exception": None,
+        "test": "powershell -enc Y21k"
     }
 ]
 
 class SecurityDetector:
     @staticmethod
     def inspect_command(command: str) -> Optional[Dict[str, Any]]:
+        # Filtro de falsos positivos: comandos inocuos de inspección o impresión sin ejecución encadenada
+        is_inspection = re.match(r"^\s*(?:git\s+grep|rg|grep|findstr|echo|cat|type|Select-String)\b", command, re.IGNORECASE)
+        has_exec_pipe = re.search(r"\|\s*(?:sh|bash|cmd|powershell|pwsh|iex|Invoke-Expression)\b", command, re.IGNORECASE)
+        if is_inspection and not has_exec_pipe:
+            return None
+
         for rule in SECURITY_RULES:
             if re.search(rule["pattern"], command, re.IGNORECASE):
                 if rule["exception"] and re.search(rule["exception"], command, re.IGNORECASE):

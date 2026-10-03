@@ -83,9 +83,20 @@ def test_mandatory_detections():
     r_env_prod = SecurityDetector.inspect_target_file("config/.env.prod")
     assert r_env_prod is not None and r_env_prod["id"] == "SEC-007"
 
+    # 9. Additional bypasses covered (Phase 17)
+    # del /q /s
+    r_del_qs = SecurityDetector.inspect_command("del /q /s c:\\temp")
+    assert r_del_qs is not None and r_del_qs["id"] == "SEC-001"
+    # Remove-Item -r
+    r_ri = SecurityDetector.inspect_command("Remove-Item -r c:\\temp")
+    assert r_ri is not None and r_ri["id"] == "SEC-001"
+    # powershell -enc
+    r_ps_enc = SecurityDetector.inspect_command("powershell -enc aW52b2tlLWV4cHJlc3Npb24=")
+    assert r_ps_enc is not None and r_ps_enc["id"] == "SEC-008"
+
     print("[PASS] All Section 14 mandatory security patterns detected accurately.")
 
-def test_exceptions_not_blocked():
+def test_exceptions_and_false_positives():
     # node_modules cleanup allowed by exception
     r_ex = SecurityDetector.inspect_command("rm -rf node_modules")
     assert r_ex is None, "Legitimate rm -rf node_modules should match exception!"
@@ -93,7 +104,19 @@ def test_exceptions_not_blocked():
     # .env.example allowed
     r_ex_env = SecurityDetector.inspect_target_file(".env.example")
     assert r_ex_env is None, ".env.example should match exception!"
-    print("[PASS] Legitimate exceptions are not blocked indiscriminately.")
+
+    # False Positive 1: git grep or ripgrep search containing dangerous text
+    r_grep = SecurityDetector.inspect_command('git grep "DROP TABLE"')
+    assert r_grep is None, 'Safe inspection command git grep "DROP TABLE" must not be blocked!'
+
+    # False Positive 2: echo printing advice or documentation containing dangerous text
+    r_echo = SecurityDetector.inspect_command('echo "never run rm -rf on prod"')
+    assert r_echo is None, 'Safe echo command must not be blocked!'
+
+    # False Positive 3: findstr/rg search
+    r_rg = SecurityDetector.inspect_command('rg "API_KEY" src/')
+    assert r_rg is None, 'Safe rg inspection command must not be blocked!'
+    print("[PASS] Legitimate exceptions and operational safe commands (false positives) are not blocked.")
 
 def test_defense_levels():
     # Level 4: Block
@@ -150,7 +173,7 @@ if __name__ == "__main__":
     try:
         test_pattern_catalog_completeness()
         test_mandatory_detections()
-        test_exceptions_not_blocked()
+        test_exceptions_and_false_positives()
         test_defense_levels()
         test_validator_hook_cli_execution()
         print("\n=== FASE 4: F-SHIELD TESTS PASSED (100%) ===")

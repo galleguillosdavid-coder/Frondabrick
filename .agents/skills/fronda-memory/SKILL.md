@@ -29,4 +29,4 @@ Permitir al arnés recordar decisiones técnicas, preferencias del desarrollador
 - Jamás almacenar contraseñas, secretos ni datos personales sensibles en memoria.
 
 ## REFERENCIAS
-- Ciclo de vida y esquema de memoria: [memory_lifecycle.md](../../../skills/fronda-memory/references/memory_lifecycle.md)
+- Ciclo de vida y esquema de memoria: [memory_lifecycle.md](./references/memory_lifecycle.md)

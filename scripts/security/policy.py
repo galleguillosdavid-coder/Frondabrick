@@ -5,9 +5,13 @@ Implements the 5 Defense Levels:
 1. Detect
 2. Warn
 3. Ask Confirmation
-4. Block (Hard Deny)
+4. Block (Hard Deny - Policy rejection & audit verdict)
 5. Overwrite (Parameter Rewrite)
 And role isolation policies.
+
+NOTE: F-Shield operates as a normative policy validator and audit barrier.
+The 'deny' verdict flags violations in hooks and audit logs. It is not an
+OS-level kernel sandbox.
 """
 
 from typing import Dict, Any, Tuple, Optional

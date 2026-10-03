@@ -28,4 +28,4 @@ Garantizar que todo desarrollo nuevo o corrección de bugs esté guiado por prue
 - Toda prueba debe ser determinista e independiente del orden de ejecución.
 
 ## REFERENCIAS
-- Protocolo Red-Green-Refactor: [red_green_refactor.md](../../../skills/fronda-tdd/references/red_green_refactor.md)
+- Protocolo Red-Green-Refactor: [red_green_refactor.md](./references/red_green_refactor.md)

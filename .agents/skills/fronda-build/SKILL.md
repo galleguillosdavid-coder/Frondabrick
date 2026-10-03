@@ -29,4 +29,4 @@ Orquestar las tareas de compilación, empaquetado, resolución de dependencias y
 - No alterar flags de compilación para ocultar errores reales de tipado o sintaxis.
 
 ## REFERENCIAS
-- Protocolos de compilación: [build_protocols.md](../../../skills/fronda-build/references/build_protocols.md)
+- Protocolos de compilación: [build_protocols.md](./references/build_protocols.md)

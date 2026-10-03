@@ -10,8 +10,8 @@ from pathlib import Path
 
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent
 PLUGIN_DIR = WORKSPACE_ROOT / ".agents" / "plugins" / "frondabrick-core"
-RULES_DIR = PLUGIN_DIR / "rules"
-WORKSPACE_RULES_DIR = WORKSPACE_ROOT / ".agents" / "rules"
+RULES_DIR = WORKSPACE_ROOT / ".agents" / "rules"
+WORKSPACE_RULES_DIR = RULES_DIR
 
 REQUIRED_RULES = [
     "00-core.md",
@@ -31,11 +31,9 @@ def test_plugin_manifest():
 
 def test_rules_presence():
     for rule in REQUIRED_RULES:
-        plugin_rule = RULES_DIR / rule
         ws_rule = WORKSPACE_RULES_DIR / rule
-        assert plugin_rule.is_file(), f"Rule missing in plugin: {plugin_rule}"
         assert ws_rule.is_file(), f"Rule missing in workspace: {ws_rule}"
-    print(f"[PASS] All {len(REQUIRED_RULES)} core rules are present in plugin and workspace directories.")
+    print(f"[PASS] All {len(REQUIRED_RULES)} core rules are present in canonical .agents/rules/ directory.")
 
 def test_rules_content():
     # 00-core
