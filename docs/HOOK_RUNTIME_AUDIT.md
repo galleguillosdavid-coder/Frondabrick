@@ -122,7 +122,7 @@ Se sometió el arnés a una prueba de integración directa en vivo ejecutando lo
 
 ### Conclusión Irrefutable de la Fase 18
 
-1. **Detección y Auditoría Operativas al 100%:**
+1. **Detección y Auditoría Verificadas en los Casos de Prueba:**
    - Todos los bypasses (`del /q /s`, `Remove-Item -r`, `powershell -enc`) son clasificados exactamente con el nivel de riesgo correspondiente por `detector.py` y `validator.py`.
    - Los falsos positivos operacionales (`echo`, `git grep`) fueron neutralizados y permiten la inspección limpia de código.
    - La bitácora `evidence/security/audit.jsonl` registra de manera fiel e individualizada cada paso de evaluación.
@@ -157,7 +157,7 @@ explorer.exe
 
 ## 6. Fase 21 — Planteamiento de Enforcement Externo al Runtime
 
-**Objetivo:** Determinar si es posible interponer una frontera de ejecución externa a Antigravity (Execution Broker / Restricción a nivel de SO) que garantice la autonomía de desarrollo en el workspace mientras impide físicamente operaciones destructivas.
+**Objetivo:** Determinar si es posible interponer una frontera de ejecución externa a Antigravity (Execution Broker / Restricción a nivel de SO) que preserve la autonomía de desarrollo en el workspace mientras impide físicamente operaciones destructivas.
 
 **Regla de Oro:**
 > *"No enforcement without physical sentinel proof."*

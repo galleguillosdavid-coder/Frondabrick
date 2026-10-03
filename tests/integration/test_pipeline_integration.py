@@ -55,7 +55,7 @@ Acelerar la resolución de consultas recurrentes reduciendo latencia.
 - Test de fallo y expiración (miss/ttl).
 
 ## 9. CRITERIOS DE ACEPTACIÓN
-- [ ] 100% de tests unitarios aprobados.
+- [ ] Todos los tests unitarios aprobados.
 - [ ] Tiempo de respuesta < 5ms en cache hit.
 
 ## 10. ROLLBACK

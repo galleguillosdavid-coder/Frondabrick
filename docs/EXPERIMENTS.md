@@ -29,5 +29,5 @@ Estados válidos de dictamen: `PASS`, `FAIL`, `INCONCLUSIVE`, `NOT_SUPPORTED`.
   - Skills frontmatter YAML (`name`, `description`): Validado.
   - Hook `PreToolUse`: Verificado contrato stdin/stdout JSON con decisiones `allow` y `deny`.
   - Mutación de parámetros: Verificado contrato `overwrite` top-level.
-  - Aislamiento de rol: Intento de escritura en rol Reviewer bloqueado exitosamente.
+  - Aislamiento de rol: En prueba sintética de contrato de hook, intento de escritura con payload simulado de rol Reviewer evaluó a decisión deny.
 - **Ruta:** [`experiments/EXP-001/`](../experiments/EXP-001/)

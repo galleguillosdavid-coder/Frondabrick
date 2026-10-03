@@ -52,4 +52,4 @@ El arnés opera en un entorno donde un agente autónomo de IA posee acceso a la 
    - La restricción de herramientas para roles de lectura (`reviewer`, `planner`) opera a nivel de política de diseño y verificación de arnés. Antigravity IDE no proporciona de forma nativa la propiedad `activeRole` en el payload del hook; la separación de permisos se rige por contratos de orquestación y prompts de rol.
 
 3. **Manejo de Falsos Positivos:**
-   - Comandos de inspección pasiva y búsqueda de texto (`git grep`, `rg`, `grep`, `findstr`, `echo`, `cat`, `type`, `Select-String`) que contienen cadenas o nombres de patrones peligrosos (ej. buscar ocurrencias de `DROP TABLE` en el código) son expresamente clasificados como seguros y excluidos de bloqueo, garantizando la operatividad del desarrollador.
+   - Comandos de inspección pasiva y búsqueda de texto (`git grep`, `rg`, `grep`, `findstr`, `echo`, `cat`, `type`, `Select-String`) que contienen cadenas o nombres de patrones peligrosos (ej. buscar ocurrencias de `DROP TABLE` en el código) son expresamente clasificados como seguros y excluidos de bloqueo, preservando la operatividad del desarrollador en el flujo de inspección.

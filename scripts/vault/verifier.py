@@ -405,7 +405,7 @@ if p_file.exists():
     def run_autonomy_test(cls, base_dir: Optional[Path] = None) -> Dict[str, Any]:
         """
         Verifies that outside the vault, normal mutable development operations
-        (create, edit, execute, delete) proceed with 100% autonomy without hindrance.
+        (create, edit, execute, delete) proceed with operational autonomy without hindrance.
         """
         root = base_dir or WORKSPACE_ROOT
         mutable_dir = root / "tmp_autonomy_mutable_test"

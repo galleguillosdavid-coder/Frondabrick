@@ -14,7 +14,7 @@ def test_cli_doctor():
     res = subprocess.run([sys.executable, "frondabrick.py", "doctor"], capture_output=True, text=True, cwd=str(WORKSPACE_ROOT))
     assert res.returncode == 0, f"Doctor failed with code {res.returncode}: {res.stderr}"
     assert "ESTADO DOCTOR: PASS" in res.stdout, f"Expected PASS in output, got: {res.stdout}"
-    print("[PASS] frondabrick doctor executed with 100% PASS.")
+    print("[PASS] frondabrick doctor executed with 10/10 PASS.")
 
 def test_cli_shield():
     # Dangerous command

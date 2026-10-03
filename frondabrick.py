@@ -149,7 +149,7 @@ def cmd_doctor(args):
         print("ESTADO DOCTOR: WARN (El sistema opera pero existen advertencias)")
         return 0
     else:
-        print("ESTADO DOCTOR: PASS (Todo el arnés Frondabrick está 100% operativo)")
+        print("ESTADO DOCTOR: PASS (Todas las verificaciones de entorno Frondabrick resultaron exitosas)")
         return 0
 
 def cmd_validate(args):

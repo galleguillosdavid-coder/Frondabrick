@@ -53,4 +53,4 @@
 4. **Redefinición de `DENY`:**
    - Declarado explícitamente en `docs/SECURITY.md`, `scripts/security/policy.py` y matriz de realidad como compuerta de auditoría y veredicto normativo, evitando falsas garantías de seguridad.
 5. **Integridad de Ficheros Protegidos:**
-   - `chat gpt` y `gen.md` se mantienen 100% inalterados (verificado por SHA-1).
+   - `chat gpt` y `gen.md` se mantienen inalterados (verificado por coincidencia byte a byte de SHA-1).

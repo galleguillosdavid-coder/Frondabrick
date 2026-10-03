@@ -16,7 +16,7 @@
 
 ### Alcance Riguroso de la Protección NTFS:
 La operación de eliminación es rechazada por el mecanismo de control de acceso de Windows/NTFS para la identidad utilizada en la prueba (`DESKTOP-97NK4LA\Frondabrick`).  
-La protección demostrada garantiza que **la identidad y contexto de ejecución del agente en este entorno no pueden eliminar el recurso protegido mediante comandos de terminal (`del`, `rmdir`, `Remove-Item -Force`)**.  
+La evidencia demuestra que **bajo la identidad y contexto de ejecución ensayados del agente, los comandos de terminal (`del`, `rmdir`, `Remove-Item -Force`) fueron rechazados físicamente a nivel de sistema operativo por las ACLs NTFS**.  
 No se califica como "100% invulnerable contra cualquier actor", ya que procesos ejecutándose bajo otra identidad, cuentas con privilegios administrativos elevados, el usuario `SYSTEM` o modificaciones directas de ACL fuera del contexto del agente pertenecen a un dominio de privilegios superior no cubierto por este modelo de amenaza.
 
 ---
@@ -26,8 +26,8 @@ No se califica como "100% invulnerable contra cualquier actor", ya que procesos 
 | Clasificación | Recursos | Política de Acceso | Justificación Operativa |
 | :--- | :--- | :---: | :--- |
 | **PROTECTED (Bóveda)** | `chat gpt`, `gen.md`, artefactos de calibración | **READ-ONLY / NO-DELETE** | Documentos fundacionales y especificaciones que nunca deben ser destruidos ni alterados por scripts automáticos. |
-| **PROTECTED (Remoto)** | Historial Git (`origin/main`) | **DISTRIBUIDO / INMUTABLE** | `.git/` local requiere creación y borrado de archivos efímeros de bloqueo (`.git/index.lock`, `COMMIT_EDITMSG`) durante cada commit normal; por ende, su resiliencia definitiva reside en el repositorio remoto sincronizado. |
-| **MUTABLE (Workspace)**| `src/`, `tests/`, `scripts/`, `docs/`, `build/`, `tmp/` | **FULL CONTROL (R/W/D)** | Espacio de pair-programming donde el agente debe refactorizar, compilar, ejecutar pruebas TDD y limpiar temporales con 100% de autonomía. |
+| **PROTECTED (Remoto)** | Historial Git (`origin/main`) | **DISTRIBUIDO / HISTORIAL REMOTO** | `.git/` local requiere creación y borrado de archivos efímeros de bloqueo (`.git/index.lock`, `COMMIT_EDITMSG`) durante cada commit normal; por ende, su resiliencia definitiva reside en el repositorio remoto sincronizado como copia externa de continuidad. |
+| **MUTABLE (Workspace)**| `src/`, `tests/`, `scripts/`, `docs/`, `build/`, `tmp/` | **FULL CONTROL (R/W/D)** | Espacio de pair-programming donde el agente debe refactorizar, compilar, ejecutar pruebas TDD y limpiar temporales con autonomía operacional en la batería ensayada. |
 
 ---
 

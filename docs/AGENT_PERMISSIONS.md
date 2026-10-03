@@ -33,5 +33,8 @@ Antigravity no posee un selector nativo de permisos por archivo de agente. El ai
 
 ## 3. Mecanismo de Imposición (Enforcement)
 1. **Gating Dinámico:** El hook `PreToolUse` consulta `ShieldPolicyEngine`.
-2. **Denegación Temprana:** Si un rol no autorizado intenta invocar una herramienta fuera de su matriz, la ejecución se cancela inmediatamente devolviendo `{"decision": "deny", "reason": "..."}`.
+2. **Denegación Temprana:** Si un rol intenta invocar una herramienta fuera de su matriz, el motor emite una decisión `deny` con la justificación correspondiente y la registra en auditoría.
 3. **No Escalabilidad Silenciosa:** Todo intento de violación queda registrado en `evidence/security/audit.jsonl`.
+
+> [!NOTE]
+> **Alcance Riguroso:** Esta matriz representa la política normativa de F-Shield y se valida en las suites de pruebas unitarias (`tests/fleet/`, `tests/reviewer/`). Como se demostró en F18–F20, el veredicto `deny` es normativo y de auditoría; no constituye una barrera coercitiva a nivel de kernel/SO si el runtime subyacente despacha la herramienta.

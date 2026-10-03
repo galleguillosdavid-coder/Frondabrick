@@ -13,10 +13,10 @@ Todas las modificaciones notables del proyecto Frondabrick están documentadas e
 - **Fase 5 (Sistema de Evidencia):** Módulo `EvidenceRecorder` con persistencia física en `evidence/` (`session`, `security`, `tests`, `architecture`) bajo las 7 preguntas obligatorias.
 - **Fase 6 (Test Harness):** Runner maestro `tests/run_all.py` y suite de integración.
 - **Fase 7 (F-Memory):** Almacenamiento persistente controlado con flujo Observación -> Refuerzo -> Promoción (`confidence >= 0.7`) y catálogo de anti-patrones en `memory/`.
-- **Fase 8 (F-Skills):** Catálogo de 6 habilidades operativas en `.agents/skills/` y `skills/` cumpliendo 100% la regla de la Sección 20.
+- **Fase 8 (F-Skills):** Catálogo de 6 habilidades operativas en `.agents/skills/` y `skills/` cumpliendo la regla de la Sección 20.
 - **Fase 9 (F-Build-Resolver):** Especialista en resolución metódica de errores de compilador y tests mediante el ciclo de 7 pasos.
 - **Fase 10 & 11 (F-Browser-QA & F-Fleet):** Protocolo de verificación visual en navegador y orquestador de flota con matriz de permisos en `docs/AGENT_PERMISSIONS.md`.
 - **Fase 12 & 15 (CLI & Doctor):** Herramienta de línea de comandos `frondabrick.py` con subcomandos `doctor`, `validate`, `audit`, `shield`, `memory`, `init`.
 - **Fase 13 (Red Team):** Suite de pruebas adversariales con 10 vectores de ataque (A01 a A10) neutralizados exitosamente.
-- **Fase 14 (E2E):** Prueba de integración de ciclo de vida completo en sandbox aislado, 100% reproducible.
+- **Fase 14 (E2E):** Prueba de integración de ciclo de vida completo en entorno temporal local (tempfile/tempdir), reproducible en el arnés Python.
 - **Documentación Completa (Sección 29):** Todos los 9 documentos normativos obligatorios redactados en `docs/`.

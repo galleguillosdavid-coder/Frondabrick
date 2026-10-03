@@ -45,6 +45,6 @@ Toda capacidad descrita se clasifica estrictamente en una de las 5 categorías:
 > **Auditoría Técnica:** La documentación de Antigravity (`.agents/` spec) no incluye un parser de agentes markdown autónomos como Everything Claude Code (Claude Code usa `agents/*.md`). Antigravity utiliza:
 > 1. Herramientas dedicadas de sub-agentes (como `browser_subagent`).
 > 2. **Skills estructuradas** con directivas de rol estricto (`skills/fronda-planner/SKILL.md`, `skills/fronda-reviewer/SKILL.md`).
-> 3. **Hooks de aislamiento de permisos (F-Shield)** que interceptan `PreToolUse` y bloquean herramientas de escritura (`write_to_file`, `replace_file_content`, etc.) cuando el agente opera bajo el rol de `Reviewer` o `Planner`.
+> 3. **Hooks de aislamiento de permisos (F-Shield)** que interceptan `PreToolUse` y emiten veredicto `deny` ante herramientas de escritura (`write_to_file`, `replace_file_content`, etc.) cuando se evalúa una operación de `Reviewer` o `Planner`.
 > 
-> **Resolución:** Implementaremos los agentes de Frondabrick bajo esta arquitectura verificada: **Rol delimitado por Skill + Barrera de cumplimiento duro mediante Hooks**.
+> **Resolución:** Implementaremos los agentes de Frondabrick bajo esta arquitectura verificada: **Rol delimitado por Skill + Barrera de cumplimiento normativo mediante Hooks y auditoría de evidencias**.

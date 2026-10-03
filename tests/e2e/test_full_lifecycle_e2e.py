@@ -152,7 +152,7 @@ print("E2E_TESTS_OK")
         # 7. MEMORY ACCUMULATION
         mem_mgr = MemoryManager(root_dir=sandbox_dir / "memory")
         mem_item = mem_mgr.observe(
-            content="La función sanitize_username garantiza longitud máxima 30 caracteres alfanuméricos",
+            content="La función sanitize_username asegura longitud máxima 30 caracteres alfanuméricos",
             origin="e2e_run",
             domain="validation",
             initial_confidence=0.5
@@ -165,7 +165,7 @@ print("E2E_TESTS_OK")
         print(f"[Paso 8: MEMORY] -> Patrón consolidado y promovido a memoria verificada ({verified_mem['id']}).")
 
         # 8. FINAL
-        print("[Paso 9: FINAL] -> Flujo E2E completado exitosamente y 100% reproducible.")
+        print("[Paso 9: FINAL] -> Flujo E2E completado exitosamente y reproducible.")
     finally:
         shutil.rmtree(sandbox_dir, ignore_errors=True)
 
