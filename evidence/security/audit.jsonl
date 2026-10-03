@@ -17,3 +17,52 @@
 {"stepIdx": 331, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
 {"stepIdx": 333, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
 {"stepIdx": 333, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 337, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 337, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 339, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 339, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 341, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 341, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 343, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 343, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 345, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 345, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 347, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 347, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 349, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 349, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 351, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 351, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 353, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 353, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 355, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 355, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 357, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 357, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 359, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 359, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 361, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 361, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 363, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 363, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"stepIdx": 365, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 365, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 367, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 367, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 369, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 369, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 371, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 371, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 373, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 373, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 375, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 375, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 377, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 377, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 379, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 379, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 381, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 381, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 383, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 383, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
