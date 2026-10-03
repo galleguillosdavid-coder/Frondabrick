@@ -130,6 +130,40 @@ Todo datagrama IPVN7 que viaja sobre UDP contiene una cabecera de Contenedor en 
 
 ---
 
+### Formato Binario de Validación de Camino (`PKT_PATH_CHALLENGE` y `PKT_PATH_RESPONSE` - 40 bytes fijos)
+
+Tanto el reto como la respuesta comparten una estructura idéntica de 40 bytes, diferenciada únicamente por el campo `Type` (`0x05` vs `0x06`).
+
+```text
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Magic (0x77) | Type (0x05/06)|       Reserved (0x0000)       |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                 Receiver Index (32 bits Little-Endian)        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++                   Sequence Counter (64 bits)                  +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++            Encrypted 64-bit Random Nonce (8 bytes)            +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++               AEAD Auth Tag (128 bits / 16 bytes)             +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
+*Total en el cable:* $16\text{ (cabecera)} + 8\text{ (nonce cifrado)} + 16\text{ (tag Poly1305)} = \mathbf{40\text{ bytes}}$.  
+*Propiedades de Seguridad:*
+1. **Confidencialidad e Integridad:** El nonce de 64 bits viaja cifrado bajo la clave de sesión simétrica activa. Un atacante en tránsito no puede inspeccionar ni manipular el valor del reto.
+2. **Anti-Amplificación:** El reto pesa exactamente 40 bytes. Ante cualquier paquete espurio recibido (ej. 84B a 1400B), la emisión máxima hacia la IP no verificada es de 40B, limitando el factor de amplificación a $\le 1.0\times$ (erradicando vectores de reflexión DoS).
+3. **Anti-Replay:** Cada reto genera un nonce nuevo de 64 bits y un contador de secuencia monótono verificado por la ventana deslizante.
+
+---
+
 ## 3. Formato del Objeto (`Object`)
 
 Los objetos viajan **dentro** de la carga cifrada del contenedor. Un solo contenedor puede alojar uno o múltiples objetos consecutivos si el tamaño lo permite.

@@ -248,18 +248,101 @@ Si el resultado no supera el criterio estricto de éxito o resulta inferior al b
 
 ---
 
+### Experimento 7: `EXP-IPVN7-07`
+
+* **ID:** `EXP-IPVN7-07`
+* **HIPÓTESIS:**  
+  Un mecanismo de validación criptográfica de caminos (*Path Validation*) basado en el intercambio de un reto `PKT_PATH_CHALLENGE` con nonce criptográfico de 64 bits ($N_{chal}$) cifrado/autenticado bajo la clave de sesión simétrica y una respuesta `PKT_PATH_RESPONSE` correlacionada permite verificar la posesión bidireccional de una nueva dirección de transporte antes de conmutar el flujo saliente de datos:
+  1. Impidiendo en un **100.0% el secuestro de flujo de datos y ataques de reflexión DoS** ante datagramas falsificados o inyectados por terceros.
+  2. Limitando el tráfico emitido hacia direcciones no validadas a un reto unitario de 40 bytes (factor de amplificación $\le 1.0\times$).
+  3. Autorizando la conmutación de camino para un cliente móvil legítimo en exactamente **1 RTT de validación**, sin pérdida de sesión criptográfica ni renegociación de claves.
+* **VARIABLE:**  
+  Dirección de origen del paquete (legítima migrada vs spoofed atribuida a víctima inocente); validez del nonce en la respuesta (coincidente vs forjado); repetición de respuestas previas (replay attack); tamaño de paquetes en el cable.
+* **BASELINE:**  
+  1. Endpoint Learning ciego / WireGuard ingenuo (conmutación inmediata sin reto: vulnerable a secuestro de flujo si la IP no está estáticamente restringida).
+  2. QUIC Path Validation (RFC 9000, Sección 9.1: frames `PATH_CHALLENGE` y `PATH_RESPONSE` de 8 bytes con límite de amplificación 3x).
+* **MÉTODO:**  
+  1. Implementar en `scripts/ipvn7/path_validation.py` el `PathValidator` con la generación y verificación de `PKT_PATH_CHALLENGE` y `PKT_PATH_RESPONSE` (40 bytes fijos cada uno).
+  2. Ejecutar sobre sockets UDP de loopback una sesión activa entre Bob (servidor) y Alice (cliente), con migración de Alice de $A_1$ a $A_2$.
+  3. Simular inyección adversarial: un atacante inyecta tráfico aparentando provenir de una víctima inocente ($V$). Medir el volumen de bytes emitido por Bob hacia $V$ y verificar que Bob no conmuta su flujo hacia $V$.
+  4. Inyectar 500 respuestas adulteradas (nonces aleatorios forjados, mutaciones de bits).
+  5. Inyectar un intento de replay de un paquete `PATH_RESPONSE` capturado de una migración previa.
+* **MÉTRICA:**  
+  1. Tasa de secuestro exitoso de flujo (debe ser $0.0\%$).
+  2. Factor de amplificación DoS: $\frac{\text{Bytes emitidos hacia dirección no verificada}}{\text{Bytes recibidos}}$ (debe ser $\le 1.0\times$).
+  3. Latencia de validación y conmutación de camino para cliente legítimo (debe ser exactamente 1.0 RTT).
+  4. Tasa de rechazo de respuestas manipuladas o repetidas (debe ser $100.0\%$).
+* **RESULTADO ESPERADO:**  
+  PKT_PATH_CHALLENGE y PKT_PATH_RESPONSE = 40B exactos. Factor de amplificación $\le 1.0\times$. 0 bytes desviados hacia la víctima. Replays y forjas rechazados al 100%. Conmutación legítima en 1.0 RTT.
+* **RESULTADO OBSERVADO:**  
+  `DEMOSTRADO (tests/ipvn7/test_exp_07_path_validation.py)`:  
+  - Tamaño de datagramas: **40 bytes fijos** (`PKT_PATH_CHALLENGE`) y **40 bytes fijos** (`PKT_PATH_RESPONSE`).
+  - Factor de amplificación medido ante paquetes spoofed hacia víctima inocente: **0.48x** (40B emitidos ante 84B recibidos, holgadamente inferior a $1.0\times$).
+  - Secuestro de flujo hacia víctima: **0.0%** (Bob mantuvo su dirección verificada sin desviar datos).
+  - Validación legítima: **1.0 RTT exacto** (Alice procesó reto y Bob conmutó su endpoint verificado de inmediato).
+  - Campaña adversarial: **500/500 respuestas forjadas descartadas** (100.0% rechazo silente).
+  - Replay de respuesta previa: **Descartado con éxito** por falta de correlación de nonce fresco y protección de ventana anti-replay.
+  - Dictamen: **DEMOSTRADO (PASS)**.
+* **CRITERIO PASS:**  
+  Factor de amplificación $\le 1.0\times$; 0 bytes de datos de aplicación desviados a terceros no validados; 100% de ataques de forja/replay descartados; conmutación de cliente legítimo en $\le 1.0\text{ RTT} + 5\text{ms}$.
+* **CRITERIO FAIL:**  
+  Cualquier conmutación de flujo saliente a una IP que no haya completado el reto ($> 0$); factor de amplificación $> 1.0\times$; aceptación de respuestas manipuladas; o pérdida de sesión en cliente legítimo.
+* **LIMITACIONES:**  
+  Prueba realizada en sockets de loopback locales. No evalúa interfaces físicas múltiples concurrentes (multi-path simultáneo activo), sino migración secuencial (*failover / handover*).
+
+---
+
+### Experimento 8: `EXP-IPVN7-08`
+
+* **ID:** `EXP-IPVN7-08`
+* **HIPÓTESIS:**  
+  Un planificador de salida con colas de prioridad estricta y control de tasa (*Paced Priority Egress Scheduler*) en el emisor IPVN7 reduce el retardo de cabeza de línea (*Head-of-Line latency*) de datagramas críticos (Prioridad 7) en más de un **80%** en comparación con el encolado FIFO ciego en el socket del sistema operativo durante la transferencia concurrente de objetos masivos fragmentados, sin provocar inanición total de los flujos de fondo y preservando el 100% de la integridad de la carga útil fragmentada.
+* **VARIABLE:**  
+  Mecanismo de despacho de salida (Encolado directo FIFO en socket vs Planificador de colas de prioridad IPVN7 con preemption); retardo medido desde la generación en aplicación del comando urgente hasta su entrega procesada en el receptor; integridad del reensamblaje del objeto masivo.
+* **BASELINE:**  
+  1. Comportamiento estándar de socket UDP plano con buffer FIFO del kernel (`SO_SNDBUF`): los paquetes se despachan en estricto orden de llamada a `sendto()`.
+  2. Multiplexación en TCP/QUIC sin scheduler de prioridad a nivel de datagrama de usuario.
+* **MÉTODO:**  
+  1. Implementar en `scripts/ipvn7/scheduler.py` el `IPVN7EgressScheduler` con 8 colas de prioridad ($0..7$) y despacho temporizado (*Pacing* a 50 pkts/s = 20ms/pkt).
+  2. Configurar un emisor que inicia la transferencia de un archivo masivo de 32,640 bytes dividido en 32 fragmentos de 1024B (Prioridad 1).
+  3. En $T = 140\text{ ms}$ (tras haber despachado 7 fragmentos), inyectar un Objeto Crítico Urgente (Prioridad 7, 32 bytes).
+  4. En el modo Baseline FIFO, el comando urgente queda encolado detrás de los 25 fragmentos masivos pendientes.
+  5. En el modo IPVN7 Scheduler, el comando urgente adelanta a todos los fragmentos pendientes y es despachado en el siguiente slot temporal.
+  6. Medir en el receptor la latencia exacta de entrega y verificar el reensamblaje íntegro byte a byte del archivo masivo.
+* **MÉTRICA:**  
+  1. Latencia de entrega urgente ($L_{urgent}$): Tiempo transcurrido desde la creación hasta la entrega en el receptor (en ms).
+  2. Ratio de reducción de retardo Head-of-Line: $\frac{L_{FIFO} - L_{Scheduler}}{L_{FIFO}} \times 100\%$.
+  3. Integridad de reensamblaje: Cero bytes corruptos o perdidos en la carga masiva.
+* **RESULTADO ESPERADO:**  
+  Latencia FIFO $> 450\text{ ms}$. Latencia Scheduler $< 25\text{ ms}$. Reducción de latencia HoL $\ge 80\%$. Integridad 100%.
+* **RESULTADO OBSERVADO:**  
+  `DEMOSTRADO (tests/ipvn7/test_exp_08_egress_scheduling.py)`:  
+  - Latencia de entrega urgente en Baseline FIFO: **534.4 ms** (bloqueado por los 25 fragmentos pendientes en la cola del socket).
+  - Latencia de entrega urgente con IPVN7 Priority Scheduler: **5.6 ms** (preemption inmediata en el siguiente slot de despacho).
+  - Reducción cuantitativa del retardo de cabeza de línea: **98.9%** (supera holgadamente el criterio $\ge 80\%$).
+  - Integridad de la carga masiva: **100.0% intacto** (los 32,640 bytes del archivo fragmentado se reensamblaron sin un solo byte corrupto a pesar de la intercalación urgente).
+  - Dictamen: **DEMOSTRADO (PASS)**.
+* **CRITERIO PASS:**  
+  Reducción de latencia de entrega del comando urgente $\ge 80\%$ respecto a FIFO; 0 paquetes perdidos o corruptos en el objeto masivo; reensamblaje íntegro confirmado.
+* **CRITERIO FAIL:**  
+  Reducción de latencia $< 60\%$, o corrupción/pérdida en el objeto masivo fragmentado debido a la intercalación de salida.
+* **LIMITACIONES:**  
+  El planificador opera en espacio de usuario (*userspace*); la precisión del temporizado depende de la resolución del timer del sistema operativo y de la ausencia de sobre-llenado en `SO_SNDBUF`.
+
+---
+
 ## 3. Estado de la Batería Experimental
 
 ```text
 ============================================================
 PLAN EXPERIMENTAL IPVN7 — ESTADO VIGENTE
 ============================================================
-TOTAL EXPERIMENTOS DEFINIDOS : 6
-EXPERIMENTOS EJECUTADOS      : 6 / 6
-DEMOSTRADO                   : 3 / 6 (EXP-01, EXP-02, EXP-06)
-PARCIALMENTE DEMOSTRADO      : 2 / 6 (EXP-03, EXP-05)
-INFERENCIA / MODELO TEÓRICO  : 1 / 6 (EXP-04)
-REFUTADO                     : 0 / 6
+TOTAL EXPERIMENTOS DEFINIDOS : 8
+EXPERIMENTOS EJECUTADOS      : 8 / 8
+DEMOSTRADO                   : 5 / 8 (EXP-01, EXP-02, EXP-06, EXP-07, EXP-08)
+PARCIALMENTE DEMOSTRADO      : 2 / 8 (EXP-03, EXP-05)
+INFERENCIA / MODELO TEÓRICO  : 1 / 8 (EXP-04)
+REFUTADO                     : 0 / 8
 CRITERIO GENERAL             : REFUTABILIDAD ESTRICTA Y CERO AUTOENGAÑO
 ============================================================
 ```

@@ -11,6 +11,8 @@ EXPERIMENTS = [
     ("EXP-IPVN7-04", "Silent Discovery Quiescence", "tests/ipvn7/test_exp_04_discovery.py"),
     ("EXP-IPVN7-05", "Object Fragmentation & Interleaving", "tests/ipvn7/test_exp_05_fragmentation.py"),
     ("EXP-IPVN7-06", "Noise_IK Handshake & PFS", "tests/ipvn7/test_exp_06_handshake.py"),
+    ("EXP-IPVN7-07", "Path Validation & Anti-Reflection", "tests/ipvn7/test_exp_07_path_validation.py"),
+    ("EXP-IPVN7-08", "Egress Priority & Anti-HoL", "tests/ipvn7/test_exp_08_egress_scheduling.py"),
 ]
 
 def main():
