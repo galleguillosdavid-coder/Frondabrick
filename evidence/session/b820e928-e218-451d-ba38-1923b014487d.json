@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "session_id": "b820e928-e218-451d-ba38-1923b014487d",
+  "intent": "EXP-26.4 Legitimate Development Forensics Verification",
+  "started_at": "2026-10-03T01:56:13.548383+00:00",
+  "closed_at": "2026-10-03T01:56:13.802990+00:00",
+  "process": {
+    "pid": 15800,
+    "parent_pid": 6980
+  },
+  "git": {
+    "commit": "fb5ce18a5f2a35c941c08fd5ec313463f2636ef1",
+    "branch": "main",
+    "dirty": true
+  },
+  "vault": {
+    "protection_status": "PASS",
+    "drift_detected": false,
+    "acl_present": "PASS",
+    "delete_denied": "PASS",
+    "canary_sha256": "0469606ef2fd9aca3debabc5931d56a8cb480fed3b826d22a99d6cc6591891f2"
+  },
+  "events_count": 3,
+  "events": [
+    {
+      "event_id": "evt_e5b1383a",
+      "session_id": "b820e928-e218-451d-ba38-1923b014487d",
+      "event_type": "session_start",
+      "timestamp": "2026-10-03T01:56:13.548383+00:00",
+      "pid": 15800,
+      "parent_pid": 6980,
+      "data": {
+        "intent": "EXP-26.4 Legitimate Development Forensics Verification"
+      }
+    },
+    {
+      "event_id": "evt_e19ec774",
+      "session_id": "b820e928-e218-451d-ba38-1923b014487d",
+      "event_type": "filesystem_change",
+      "timestamp": "2026-10-03T01:56:13.552520+00:00",
+      "pid": 15800,
+      "data": {
+        "files_changed": [
+          "src/probe.py"
+        ],
+        "action": "modify"
+      }
+    },
+    {
+      "event_id": "evt_f705e2d0",
+      "session_id": "b820e928-e218-451d-ba38-1923b014487d",
+      "event_type": "action_executed",
+      "timestamp": "2026-10-03T01:56:13.799056+00:00",
+      "pid": 15800,
+      "data": {
+        "command": "python tests/core/test_resilience_probe.py",
+        "exit_code": 0,
+        "command_hash": "76ea26f400d4f53206f00e46b099ca3b76fea151335f71e81b52be7ed01154ff"
+      }
+    }
+  ],
+  "f_shield_events": [
+    {
+      "session_id": "b820e928-e218-451d-ba38-1923b014487d",
+      "stepIdx": 99991,
+      "tool": "run_command",
+      "decision": "allow",
+      "level": 1,
+      "reason": "Operación verificada por F-Shield."
+    }
+  ],
+  "evidence_records": [
+    {
+      "category": "tests",
+      "record": {
+        "timestamp": "2026-10-03T01:56:13.800507+00:00",
+        "session_id": "b820e928-e218-451d-ba38-1923b014487d",
+        "file": "1790992573_legitimate_development_run.json",
+        "title": "Legitimate Development Run",
+        "result": "PASS"
+      }
+    }
+  ],
+  "final_status": "PASS"
+}

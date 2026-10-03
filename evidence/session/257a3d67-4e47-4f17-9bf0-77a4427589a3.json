@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "session_id": "257a3d67-4e47-4f17-9bf0-77a4427589a3",
+  "intent": "EXP-26.1 Controlled Verification Session",
+  "started_at": "2026-10-03T01:48:02.385406+00:00",
+  "closed_at": "2026-10-03T01:48:02.564700+00:00",
+  "process": {
+    "pid": 20228,
+    "parent_pid": 12984
+  },
+  "git": {
+    "commit": "fb5ce18a5f2a35c941c08fd5ec313463f2636ef1",
+    "branch": "main",
+    "dirty": true
+  },
+  "vault": {
+    "protection_status": "PASS",
+    "drift_detected": false,
+    "acl_present": "PASS",
+    "delete_denied": "PASS",
+    "canary_sha256": "0469606ef2fd9aca3debabc5931d56a8cb480fed3b826d22a99d6cc6591891f2"
+  },
+  "events_count": 2,
+  "events": [
+    {
+      "event_id": "evt_4c61827e",
+      "session_id": "257a3d67-4e47-4f17-9bf0-77a4427589a3",
+      "event_type": "session_start",
+      "timestamp": "2026-10-03T01:48:02.385406+00:00",
+      "pid": 20228,
+      "parent_pid": 12984,
+      "data": {
+        "intent": "EXP-26.1 Controlled Verification Session"
+      }
+    },
+    {
+      "event_id": "evt_23d704c2",
+      "session_id": "257a3d67-4e47-4f17-9bf0-77a4427589a3",
+      "event_type": "action_executed",
+      "timestamp": "2026-10-03T01:48:02.563827+00:00",
+      "pid": 20228,
+      "data": {
+        "command": "python tests/core/test_token_counter.py",
+        "exit_code": 0,
+        "command_hash": "511698a1d5204d8b5d7792cc5062983548fbdcbeb8b26d692182e3107482733f"
+      }
+    }
+  ],
+  "f_shield_events": [
+    {
+      "session_id": "257a3d67-4e47-4f17-9bf0-77a4427589a3",
+      "stepIdx": 77777,
+      "tool": "run_command",
+      "decision": "allow",
+      "level": 1,
+      "reason": "Operación verificada por F-Shield."
+    }
+  ],
+  "evidence_records": [
+    {
+      "category": "tests",
+      "record": {
+        "timestamp": "2026-10-03T01:48:02.549611+00:00",
+        "session_id": "257a3d67-4e47-4f17-9bf0-77a4427589a3",
+        "file": "1790992082_correlation_probe_run.json",
+        "title": "Correlation Probe Run",
+        "result": "PASS"
+      }
+    }
+  ],
+  "final_status": "PASS"
+}

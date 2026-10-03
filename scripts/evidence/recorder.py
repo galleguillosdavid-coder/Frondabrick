@@ -40,7 +40,7 @@ class EvidenceRecorder:
         for cat in CATEGORIES:
             (self.root_dir / cat).mkdir(parents=True, exist_ok=True)
 
-    def record(self, category: str, data: Dict[str, Any], title: str = "") -> Path:
+    def record(self, category: str, data: Dict[str, Any], title: str = "", session_id: Optional[str] = None) -> Path:
         if category not in CATEGORIES:
             raise ValueError(f"Categoría inválida '{category}'. Debe ser una de: {CATEGORIES}")
 
@@ -49,6 +49,16 @@ class EvidenceRecorder:
         if missing:
             raise ValueError(f"Registro de evidencia inválido. Faltan los campos obligatorios: {missing}")
 
+        # Correlate session_id if provided or active in environment/session file
+        resolved_session_id = session_id or data.get("session_id") or os.environ.get("FRONDABRICK_SESSION_ID")
+        if not resolved_session_id:
+            active_session_file = self.root_dir / "session" / ".active_session"
+            if active_session_file.is_file():
+                try:
+                    resolved_session_id = active_session_file.read_text(encoding="utf-8").strip()
+                except Exception:
+                    resolved_session_id = None
+
         timestamp = datetime.now(timezone.utc).isoformat()
         slug = title.strip().lower().replace(" ", "_").replace("/", "_") if title else "event"
         filename = f"{int(time.time())}_{slug}.json"
@@ -56,6 +66,7 @@ class EvidenceRecorder:
 
         record_payload = {
             "timestamp": timestamp,
+            "session_id": resolved_session_id,
             "category": category,
             "title": title or "Acción Registrada",
             "evidence": {
@@ -76,12 +87,14 @@ class EvidenceRecorder:
         # Also append to a category summary log
         summary_log = self.root_dir / category / "summary.jsonl"
         with open(summary_log, "a", encoding="utf-8") as f:
-            f.write(json.dumps({
+            summary_item = {
                 "timestamp": timestamp,
+                "session_id": resolved_session_id,
                 "file": filename,
                 "title": title,
                 "result": data["result"]
-            }) + "\n")
+            }
+            f.write(json.dumps(summary_item) + "\n")
 
         return target_path
 

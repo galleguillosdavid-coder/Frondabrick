@@ -360,3 +360,165 @@
 {"stepIdx": 897, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
 {"stepIdx": 899, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
 {"stepIdx": 901, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 903, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 905, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 907, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 913, "tool": "list_dir", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 915, "tool": "list_dir", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 917, "tool": "list_dir", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 919, "tool": "list_dir", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 921, "tool": "list_dir", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 923, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 925, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 927, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 929, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 931, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 933, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 935, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 937, "tool": "grep_search", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 939, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 941, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 943, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 945, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 947, "tool": "list_dir", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 949, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 951, "tool": "grep_search", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 953, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 957, "tool": "list_dir", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 959, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 961, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 963, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 965, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"stepIdx": 967, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 969, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 971, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 973, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "a99a6860-e577-4d9f-81ea-97013ae3378d", "stepIdx": 77777, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 975, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 977, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 979, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "eb4709f5-e8bb-4540-8d9d-c3b51befb454", "stepIdx": 77777, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 981, "tool": "manage_task", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 984, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 986, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 988, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 990, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 992, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 994, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 996, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 998, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1000, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "136c9cbe-17e1-476b-90bd-80785ca1f41b", "stepIdx": 77777, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1002, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "07d3c81e-ec7f-495f-95c3-b7c09d3047d7", "stepIdx": 77777, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1004, "tool": "manage_task", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1007, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1009, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1011, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1013, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1017, "tool": "list_dir", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1019, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1021, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1023, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1025, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1027, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1029, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1031, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1033, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1035, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1037, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1039, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1041, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "257a3d67-4e47-4f17-9bf0-77a4427589a3", "stepIdx": 77777, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1043, "tool": "manage_task", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1046, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1048, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1050, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1052, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1056, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1058, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1060, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1062, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1064, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1066, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1068, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1070, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1072, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1074, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "d1e0f42d-3ebb-4130-abc9-35d85d879e42", "stepIdx": 88888, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "d1e0f42d-3ebb-4130-abc9-35d85d879e42", "stepIdx": 1076, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "d1e0f42d-3ebb-4130-abc9-35d85d879e42", "stepIdx": 1078, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "d1e0f42d-3ebb-4130-abc9-35d85d879e42", "stepIdx": 1080, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "dee5dd7b-fa16-4b9f-8835-36fcaf23bb4a", "stepIdx": 88888, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "dee5dd7b-fa16-4b9f-8835-36fcaf23bb4a", "stepIdx": 1082, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "dee5dd7b-fa16-4b9f-8835-36fcaf23bb4a", "stepIdx": 1084, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "dee5dd7b-fa16-4b9f-8835-36fcaf23bb4a", "stepIdx": 1086, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "27f850a9-db72-4fa9-a0f7-45f8d796319e", "stepIdx": 88888, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "27f850a9-db72-4fa9-a0f7-45f8d796319e", "stepIdx": 1088, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "27f850a9-db72-4fa9-a0f7-45f8d796319e", "stepIdx": 1090, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "27f850a9-db72-4fa9-a0f7-45f8d796319e", "stepIdx": 1092, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "27f850a9-db72-4fa9-a0f7-45f8d796319e", "stepIdx": 1094, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "27f850a9-db72-4fa9-a0f7-45f8d796319e", "stepIdx": 1096, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "27f850a9-db72-4fa9-a0f7-45f8d796319e", "stepIdx": 1098, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "82cc0ac5-5123-42c7-abbf-2c66782a1586", "stepIdx": 88888, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": null, "stepIdx": 1100, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1102, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1104, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "adc191f1-afa8-44ce-ac2d-f50201172347", "stepIdx": 77777, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "6abe8412-3727-450f-8ef2-55a59b195228", "stepIdx": 88888, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": null, "stepIdx": 1106, "tool": "manage_task", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1109, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1111, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1113, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1115, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1117, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1121, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1123, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1125, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1127, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "d26d2089-1815-484e-9527-e9da53c01584", "stepIdx": 99991, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1129, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1131, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1133, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "90fc53da-03ca-4e22-a048-2cfe3cfd069e", "stepIdx": 77777, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "1361e5ea-704b-432f-ab46-c50f1a043737", "stepIdx": 88888, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "b820e928-e218-451d-ba38-1923b014487d", "stepIdx": 99991, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1135, "tool": "manage_task", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1138, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1140, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1142, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1144, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1146, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1148, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1152, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1154, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1156, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1158, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1160, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1162, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1164, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1166, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1168, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1170, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1172, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1174, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1176, "tool": "replace_file_content", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1178, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 42, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "bfbde61b-8739-42e2-9757-cece5d890143", "stepIdx": 77777, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": "cfe65d3a-fbf8-4f11-b647-870a3a9f1c88", "stepIdx": 88888, "tool": "run_command", "decision": "deny", "level": 4, "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminaci\u00f3n recursiva forzada en el sistema de archivos. (Operaci\u00f3n bloqueada por Nivel 4)."}
+{"session_id": "472407ae-a6af-49e6-a60a-fec2a33c9bc6", "stepIdx": 99991, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1180, "tool": "manage_task", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1183, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1185, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1187, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1189, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1191, "tool": "view_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1193, "tool": "write_to_file", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1195, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}
+{"session_id": null, "stepIdx": 1197, "tool": "run_command", "decision": "allow", "level": 1, "reason": "Operaci\u00f3n verificada por F-Shield."}

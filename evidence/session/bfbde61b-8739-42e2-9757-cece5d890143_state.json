@@ -1,0 +1,10 @@
+{
+  "session_id": "bfbde61b-8739-42e2-9757-cece5d890143",
+  "intent": "EXP-26.1 Controlled Verification Session",
+  "started_at": "2026-10-03T02:00:04.504764+00:00",
+  "process": {
+    "pid": 4108,
+    "parent_pid": 8088
+  },
+  "metadata": {}
+}

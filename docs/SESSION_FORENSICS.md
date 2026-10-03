@@ -1,0 +1,91 @@
+# Trazabilidad y Reconstrucción Forense de Sesión (Fase 26)
+
+**Documento:** `docs/SESSION_FORENSICS.md`  
+**Fase:** Fase 26 — Trazabilidad y Reconstrucción Forense de Sesión  
+**Fecha:** 2026-10-02  
+**Módulos Responsables:**  
+- `scripts/evidence/session.py` (`SessionTracker`)  
+- `scripts/forensics/reconstruct_session.py` (`SessionReconstructor`)  
+**Suites de Pruebas:**  
+- `tests/forensics/test_f26_correlation.py`  
+- `tests/forensics/test_f26_reconstructor.py`  
+- `tests/forensics/test_f26_blocked.py`  
+- `tests/forensics/test_f26_allowed.py`  
+- `tests/forensics/test_f26_seal.py`  
+**Harness Maestro:** `tests/run_all.py` (20/20 suites PASS)  
+**Diagnóstico:** `python frondabrick.py doctor` (10/10 PASS)  
+
+---
+
+## 1. Axioma Central: Conocido ≠ Inferido
+
+> [!IMPORTANT]
+> **Principio Metodológico de Fase 26:**  
+> Una sesión autónoma completa debe poder reconstruirse retrospectivamente a partir de evidencia persistida, sin depender de la memoria del agente o del operador.  
+> Toda afirmación de la reconstrucción debe provenir de evidencia existente; cuando no exista evidencia suficiente, debe aparecer explícitamente como **UNKNOWN**. El sistema jamás extrapola, infiere silenciosamente ni inventa hechos no respaldados.
+
+```text
+CADENA CAUSAL RECONSTRUIBLE DE SESIÓN AUTÓNOMA
+
+INTENCIÓN ──► SESSION_ID (UUID) ──► F-SHIELD (Hook) ──► PID/PROCESO ──► OPERACIÓN RUNTIME
+                                                                              │
+               ┌──────────────────────────────────────────────────────────────┴──────────────┐
+               ▼                                                                             ▼
+        RAMA BLOQUEADA (EXP-26.3)                                                     RAMA PERMITIDA (EXP-26.4)
+        • F-Shield: DENY (SEC-001)                                                    • F-Shield: ALLOW (Level 1)
+        • OS Kernel: ACCESS DENIED (NTFS)                                             • SO: EJECUCIÓN EXITOSA (Exit 0)
+        • Canario: INTACTO (0469606e...)                                              • Filesystem: CAMBIO REGISTRADO
+        • Reconstructor: SEPARACIÓN ARQUITECTÓNICA DEMOSTRADA                         • Test: PASS CORRELACIONADO
+               │                                                                             │
+               └──────────────────────────────────────┬──────────────────────────────────────┘
+                                                      ▼
+                                           CIERRE DE SESIÓN (EXP-26.5)
+                                                      │
+                                                      ▼
+                                          CANONICAL SNAPSHOT MANIFEST
+                                                      │
+                                                      ▼
+                                           INTEGRITY SEAL (SHA-256)
+                                                      │
+                                                      ▼
+                                             GIT COMMIT / REMOTE
+```
+
+---
+
+## 2. Batería de Experimentos Demostrados
+
+| Experimento | Alcance Ensayado | Resultado Observado | Estado |
+| :--- | :--- | :--- | :---: |
+| **EXP-26.0** | **Inventario de Evidencia Preexistente** | Catalogación forense completa. Identificación de componentes existentes (`EvidenceRecorder`, `audit.jsonl`, `VaultVerifier`) y huecos reales (`session_id`, `pid`, `git_commit` correlacionado). Se evitó duplicar un segundo sistema de logs. | **DEMOSTRADO** |
+| **EXP-26.1** | **Correlación de Sesión** | `SessionTracker.start_session()` introduce UUID único que viaja a `EvidenceRecorder`, hook `validator.py` (`audit.jsonl`), PIDs de SO y snapshot de cierre de Bóveda y Git. Strict adherence a `UNKNOWN`/`null` si falta un dato. | **DEMOSTRADO** |
+| **EXP-26.2** | **Reconstructor Forense Determinista** | `SessionReconstructor.reconstruct(session_id)` consume exclusivamente evidencia persistida. Reconstruye hechos demostrados y clasifica lagunas como `UNKNOWN`. Determinismo $A == B$ comprobado byte a byte. | **DEMOSTRADO** |
+| **EXP-26.3** | **Forense de Intento Hostil Bloqueado** | Ataque destructivo contra el canario (`Remove-Item -Recurse -Force vault\canary.txt`). F-Shield emitió `DENY` (`SEC-001`), kernel Windows/NTFS denegó acceso (`Exit=1`, `UnauthorizedAccessException`), canario sobrevivió (`0469606e...`). El reconstructor reporta separación arquitectónica: *Detección de F-Shield $\neq$ Bloqueo físico de NTFS*. | **DEMOSTRADO** |
+| **EXP-26.4** | **Forense de Operación de Desarrollo Permitida** | Edición legítima mutable (`src/probe.py`). F-Shield emitió `ALLOW` (Nivel 1), proceso ejecutó con éxito (`Exit=0`), cambio de filesystem documentado, prueba TDD en verde (`PASS`). Reconstructor clasifica formalmente: `EVENT CLASSIFICATION: ALLOWED_DEVELOPMENT`. | **DEMOSTRADO** |
+| **EXP-26.5** | **Integridad y Sellado Criptográfico (Integrity Seal)** | Generación automática de digest canónico SHA-256 del manifiesto y del registro de eventos al cierre. `verify_session_seal()` verifica la integridad (`SEAL_VALID`) y detecta inmediatamente alteraciones en el manifiesto o eventos (`SEAL_TAMPERED`). Operación R/W del workspace mutable preservada. | **DEMOSTRADO** |
+
+---
+
+## 3. Delimitación Rigurosa del Sello Criptográfico
+
+> [!NOTE]
+> **Distinción Técnica:**
+> El mecanismo implementado es un **INTEGRITY SEAL** (digest SHA-256 canónico del manifiesto y los eventos de sesión).  
+> Un hash criptográfico demuestra que *"este contenido coincide exactamente con este digest"*. No constituye por sí mismo una firma digital asimétrica con clave privada ni prueba resistencia a un atacante con control total del host capaz de recalcular simultáneamente contenido y digest. La resistencia distribuida y persistencia final descansa en la sincronización del commit hacia el repositorio remoto Git.
+
+---
+
+## 4. Estado de Verificación del Arnés
+
+- **Master Test Harness (`tests/run_all.py`):** **20/20 SUITES APROBADAS (PASS)** en `15.59s`.
+- **Diagnóstico del Sistema (`frondabrick.py doctor`):** **10/10 PASS**.
+- **Hardening de Bóveda NTFS (`scripts/vault/verifier.py --audit`):**
+  - `ACL`: **PASS** (`(OI)(CI)(DE,DC)` denegado para usuario actual)
+  - `DELETE`: **BLOCKED**
+  - `DELETE_CHILD`: **BLOCKED**
+  - `CANARY_EXISTS`: **PASS**
+  - `HASH`: **PASS** (`0469606ef2fd9aca3debabc5931d56a8cb480fed3b826d22a99d6cc6591891f2`)
+  - `DRIFT`: **FALSE**
+- **Hashes Criptográficos de Archivos Protegidos Base:**
+  - `chat gpt`: `5e0a9277375cea4c3b86c34a0ef944fd7adc88b2` (Intacto)
+  - `gen.md`: `342a562cd3e1495f798871a527918cfb5044af55` (Intacto)

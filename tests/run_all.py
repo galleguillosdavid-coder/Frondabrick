@@ -37,6 +37,11 @@ TEST_SUITES = [
     ("RedTeam", WORKSPACE_ROOT / "tests" / "adversarial" / "test_red_team.py"),
     ("Vault", WORKSPACE_ROOT / "tests" / "vault" / "test_vault_hardening.py"),
     ("Resilience", WORKSPACE_ROOT / "tests" / "vault" / "test_resilience_session.py"),
+    ("Forensics", WORKSPACE_ROOT / "tests" / "forensics" / "test_f26_correlation.py"),
+    ("Reconstructor", WORKSPACE_ROOT / "tests" / "forensics" / "test_f26_reconstructor.py"),
+    ("BlockedForensics", WORKSPACE_ROOT / "tests" / "forensics" / "test_f26_blocked.py"),
+    ("AllowedForensics", WORKSPACE_ROOT / "tests" / "forensics" / "test_f26_allowed.py"),
+    ("IntegritySeal", WORKSPACE_ROOT / "tests" / "forensics" / "test_f26_seal.py"),
     ("E2E", WORKSPACE_ROOT / "tests" / "e2e" / "test_full_lifecycle_e2e.py"),
     ("Integration", WORKSPACE_ROOT / "tests" / "integration" / "test_pipeline_integration.py"),
 ]

@@ -36,7 +36,19 @@ def main():
             evidence_dir = WORKSPACE_ROOT / "evidence" / "security"
             if evidence_dir.exists():
                 trace_file = evidence_dir / "audit.jsonl"
+                
+                # Correlate session_id if active
+                session_id = payload.get("sessionId") or os.environ.get("FRONDABRICK_SESSION_ID")
+                if not session_id:
+                    active_session_file = WORKSPACE_ROOT / "evidence" / "session" / ".active_session"
+                    if active_session_file.is_file():
+                        try:
+                            session_id = active_session_file.read_text(encoding="utf-8").strip()
+                        except Exception:
+                            session_id = None
+
                 record = {
+                    "session_id": session_id,
                     "stepIdx": payload.get("stepIdx"),
                     "tool": payload.get("toolCall", {}).get("name"),
                     "decision": result.get("decision"),

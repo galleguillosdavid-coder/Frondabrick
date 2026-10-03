@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "session_id": "82cc0ac5-5123-42c7-abbf-2c66782a1586",
+  "intent": "EXP-26.3 Controlled Blocked Destructive Deletion Forensics",
+  "started_at": "2026-10-03T01:52:52.720100+00:00",
+  "closed_at": "2026-10-03T01:52:53.955781+00:00",
+  "process": {
+    "pid": 3836,
+    "parent_pid": 23384
+  },
+  "git": {
+    "commit": "fb5ce18a5f2a35c941c08fd5ec313463f2636ef1",
+    "branch": "main",
+    "dirty": true
+  },
+  "vault": {
+    "protection_status": "PASS",
+    "drift_detected": false,
+    "acl_present": "PASS",
+    "delete_denied": "PASS",
+    "canary_sha256": "0469606ef2fd9aca3debabc5931d56a8cb480fed3b826d22a99d6cc6591891f2"
+  },
+  "events_count": 2,
+  "events": [
+    {
+      "event_id": "evt_d3c4371d",
+      "session_id": "82cc0ac5-5123-42c7-abbf-2c66782a1586",
+      "event_type": "session_start",
+      "timestamp": "2026-10-03T01:52:52.720100+00:00",
+      "pid": 3836,
+      "parent_pid": 23384,
+      "data": {
+        "intent": "EXP-26.3 Controlled Blocked Destructive Deletion Forensics"
+      }
+    },
+    {
+      "event_id": "evt_98379b4a",
+      "session_id": "82cc0ac5-5123-42c7-abbf-2c66782a1586",
+      "event_type": "blocked_attempt",
+      "timestamp": "2026-10-03T01:52:53.937335+00:00",
+      "pid": 3836,
+      "data": {
+        "command": "powershell -Command \"Remove-Item -Recurse -Force vault\\canary.txt\"",
+        "target_path": "vault/canary.txt",
+        "f_shield_decision": "deny",
+        "f_shield_level": 4,
+        "os_exit_code": 1,
+        "os_error": "Remove-Item : No se puede quitar el elemento C:\\Users\\Frondabrick\\Desktop\\dvd\\EvryThing\\vault\\canary.txt: Acceso \ndenegado a la ruta de acceso 'C:\\Users\\Frondabrick\\Desktop\\dvd\\EvryThing\\vault\\canary.txt'.\nEn l¡nea: 1 Car cter: 1\n+ Remove-Item -Recurse -Force vault\\canary.txt\n+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : PermissionDenied: (C:\\Users\\Fronda...ault\\canary.txt:FileInfo) [Remove-Item], Unauthoriz \n   edAccessException\n    + FullyQualifiedErrorId : RemoveFileSystemItemUnAuthorizedAccess,Microsoft.PowerShell.Commands.RemoveItemCommand",
+        "enforcement_layer": "NTFS_ACL",
+        "command_hash": "2d4b20a24ff6a20bc68e4a3d846f985592209d4d0c668064d8e6ad4f5725f997"
+      }
+    }
+  ],
+  "f_shield_events": [
+    {
+      "session_id": "82cc0ac5-5123-42c7-abbf-2c66782a1586",
+      "stepIdx": 88888,
+      "tool": "run_command",
+      "decision": "deny",
+      "level": 4,
+      "reason": "[F-Shield CRITICAL] Recursive Forced Deletion: Intento de eliminación recursiva forzada en el sistema de archivos. (Operación bloqueada por Nivel 4)."
+    }
+  ],
+  "evidence_records": [],
+  "final_status": "PASS"
+}

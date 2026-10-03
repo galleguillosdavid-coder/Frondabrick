@@ -1,0 +1,10 @@
+{
+  "session_id": "bc72adc8-dc9f-45af-b741-91e504d3ba57",
+  "intent": "EXP-26.5 Controlled Integrity Seal Verification",
+  "started_at": "2026-10-03T01:59:28.996647+00:00",
+  "process": {
+    "pid": 13220,
+    "parent_pid": 13184
+  },
+  "metadata": {}
+}

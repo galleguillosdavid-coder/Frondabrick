@@ -1,0 +1,10 @@
+{
+  "session_id": "d26d2089-1815-484e-9527-e9da53c01584",
+  "intent": "EXP-26.4 Legitimate Development Forensics Verification",
+  "started_at": "2026-10-03T01:55:37.215978+00:00",
+  "process": {
+    "pid": 7728,
+    "parent_pid": 13372
+  },
+  "metadata": {}
+}
